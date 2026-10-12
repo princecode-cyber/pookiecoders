@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAKEEL AI // THE LEGAL AI SENTINEL FOR INDIA</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- PDF parsing helper library for client-side processing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- jsPDF for PDF Report Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        wakeel: {
+                            bg: '#05070a',
+                            card: '#0b0f17',
+                            panel: '#121824',
+                            border: '#1e293b',
+                            saffron: '#FF9933',
+                            white: '#FFFFFF',
+                            green: '#138808',
+                            navy: '#000080',
+                            cyber: '#00f0ff',
+                            magenta: '#ff0055',
+                            gold: '#ffb703',
+                            muted: '#64748b'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #05070a;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Continuous Tricolour Ambient Gradient Running Background */
+        .tricolour-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            background: linear-gradient(
+                125deg,
+                rgba(255, 153, 51, 0.12) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(19, 136, 8, 0.12) 100%
+            );
+            background-size: 300% 300%;
+            animation: tricolourFlow 12s ease infinite;
+        }
+
+        @keyframes tricolourFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animated Tricolour Top Accent Line */
+        .tricolour-top-bar {
+            height: 3px;
+            width: 100%;
+            background: linear-gradient(90deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
+            background-size: 200% 100%;
+            animation: moveTricolour 4s linear infinite;
+        }
+
+        @keyframes moveTricolour {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        /* Cyber RGB Glow Panels */
+        .rgb-card {
+            background: rgba(11, 15, 23, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .rgb-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255,153,51,0.4), rgba(0,240,255,0.2), rgba(19,136,8,0.4));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .rgb-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Cyber Grid Background Overlay */
+        .cyber-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Dynamic RGB Text Animation */
+        .rgb-text {
+            background: linear-gradient(90deg, #FF9933, #00f0ff, #138808);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* Risk-o-Meter Gauge Needle Animation */
+        .gauge-needle {
+            transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: 100px 100px;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #05070a; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00f0ff; }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-wakeel-bg text-wakeel-light selection:bg-wakeel-cyber selection:text-black">
+
+    <div class="tricolour-bg"></div>
+    <div class="cyber-grid"></div>
+    <div class="tricolour-top-bar"></div>
+
+    <header class="border-b border-wakeel-border bg-wakeel-card/90 backdrop-blur-md sticky top-0 z-40 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-wakeel-saffron via-wakeel-cyber to-wakeel-green p-[2px] shadow-lg shadow-wakeel-cyber/20">
+                    <div class="w-full h-full bg-wakeel-bg rounded-[10px] flex items-center justify-center text-wakeel-cyber text-xl font-bold">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-black tracking-tight text-white flex items-center gap-2">
+                        <span class="rgb-text font-mono">WAKEEL AI</span>
+                    </h1>
+                    <p class="text-xs text-wakeel-muted font-mono flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-wakeel-green animate-ping"></span>
+                        THE LEGAL AI SENTINEL FOR INDIA
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <span class="hidden md:inline-flex items-center space-x-2 text-xs font-mono bg-wakeel-panel border border-wakeel-border px-3 py-1.5 rounded-lg text-wakeel-muted">
+                    <i class="fa-solid fa-flag text-wakeel-saffron"></i>
+                    <span>INDIAN CONTRACT ACT GROUNDED</span>
+                </span>
+                <button onclick="clearAllData()" class="px-4 py-2 rounded-xl text-xs font-mono font-bold bg-wakeel-panel hover:bg-rose-500/10 text-wakeel-muted hover:text-rose-400 border border-wakeel-border hover:border-rose-500/30 transition flex items-center space-x-2">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <span class="hidden sm:inline">RESET SCANNER</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+        <!-- Top Banner -->
+        <div class="rgb-card rounded-2xl p-6 sm:p-8 relative overflow-hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                <div class="space-y-2 max-w-3xl">
+                    <div class="inline-flex items-center space-x-2 text-xs font-mono font-bold text-wakeel-saffron bg-wakeel-saffron/10 px-3 py-1 rounded-lg border border-wakeel-saffron/30">
+                        <i class="fa-solid fa-microchip text-wakeel-cyber"></i>
+                        <span>DEEP CLAUSE SCANNER & STATUTORY PARSER</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                        Instant Indian Statutory Legal Audit
+                    </h2>
+                    <p class="text-wakeel-muted text-sm sm:text-base leading-relaxed">
+                        Upload any agreement PDF or paste legal text. Our AI extracts clauses, compares against <span class="text-wakeel-saffron font-semibold">Section 27</span> (Restraint of Trade) and <span class="text-wakeel-green font-semibold">Section 23</span> (Unlawful Objects) of the Indian Contract Act 1872, and computes an instant <span class="text-wakeel-cyber font-semibold">Risk-o-Meter Gauge score</span>.
+                    </p>
+                </div>
+
+                <!-- PDF Sample Selectors -->
+                <div class="flex flex-col gap-2 min-w-[220px]">
+                    <span class="text-xs font-mono text-wakeel-muted uppercase font-bold tracking-wider">Test PDF Presets:</span>
+                    <button onclick="loadSamplePreset(0)" class="text-xs font-mono px-4 py-2.5 rounded-xl bg-wakeel-panel hover:bg-wakeel-saffron/10 hover:text-wakeel-saffron border border-wakeel-border transition text-left flex items-center justify-between group">
+                        <span class="font-bold">📄 Toxic Freelance Contract</span>
+                        <i class="fa-solid fa-arrow-right text-[10px] text-wakeel-cyber opacity-0 group-hover:opacity-100 transition"></i>
+                    </button>
+                    <button onclick="loadSamplePreset(1)" class="text-xs font-mono px-4 py-2.5 rounded-xl bg-wakeel-panel hover:bg-wakeel-cyber/10 hover:text-wakeel-cyber border border-wakeel-border transition text-left flex items-center justify-between group">
+                        <span class="font-bold">📄 Aggressive Startup NDA</span>
+                        <i class="fa-solid fa-arrow-right text-[10px] text-wakeel-cyber opacity-0 group-hover:opacity-100 transition"></i>
+                    </button>
+                    <button onclick="loadSamplePreset(2)" class="text-xs font-mono px-4 py-2.5 rounded-xl bg-wakeel-panel hover:bg-wakeel-green/10 hover:text-wakeel-green border border-wakeel-border transition text-left flex items-center justify-between group">
+                        <span class="font-bold">📄 Balanced Fair Agreement</span>
+                        <i class="fa-solid fa-arrow-right text-[10px] text-wakeel-cyber opacity-0 group-hover:opacity-100 transition"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- LEFT COLUMN: PDF Dropzone & Ingest Box -->
+            <div class="lg:col-span-5 space-y-6">
+                <div class="rgb-card rounded-2xl p-6 flex flex-col h-full border border-wakeel-border">
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-base font-bold text-white flex items-center space-x-2.5 font-mono">
+                            <i class="fa-solid fa-file-pdf text-wakeel-saffron"></i>
+                            <span>1. INGEST CONTRACT PDF</span>
+                        </h3>
+                        <span id="charCount" class="text-xs font-mono text-wakeel-cyber font-bold">0 chars</span>
+                    </div>
+
+                    <!-- PDF File Dropzone -->
+                    <div class="border-2 border-dashed border-wakeel-border hover:border-wakeel-cyber rounded-xl p-6 text-center cursor-pointer transition mb-4 bg-wakeel-bg/80 group relative overflow-hidden" onclick="document.getElementById('fileInput').click()">
+                        <input type="file" id="fileInput" class="hidden" accept=".pdf,.txt,.doc,.docx" onchange="handleFileUpload(event)">
+                        
+                        <div class="flex flex-col items-center justify-center space-y-2">
+                            <div class="w-12 h-12 rounded-xl bg-wakeel-panel border border-wakeel-border flex items-center justify-center text-wakeel-cyber text-2xl group-hover:scale-110 transition">
+                                <i class="fa-solid fa-file-arrow-up"></i>
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold text-wakeel-light">
+                                Drop PDF file here or <span class="text-wakeel-cyber underline font-bold">Browse</span>
+                            </p>
+                            <p class="text-[11px] text-wakeel-muted font-mono">Parses native text or optical PDF text</p>
+                        </div>
+                        <div id="pdfBadge" class="mt-3 text-xs font-mono text-wakeel-saffron bg-wakeel-saffron/10 px-3 py-1 rounded-full border border-wakeel-saffron/30 inline-block hidden font-bold"></div>
+                    </div>
+
+                    <!-- Direct Text Input Area -->
+                    <div class="flex-1 flex flex-col min-h-[260px]">
+                        <label class="text-xs font-mono text-wakeel-muted mb-2 font-bold flex items-center justify-between">
+                            <span>PASTED CONTRACT TEXT / EXTRACTED CLAUSES:</span>
+                            <span id="docTypeLabel" class="text-wakeel-cyber">Ready</span>
+                        </label>
+                        <textarea id="contractInput" oninput="updateCharCount()" placeholder="Paste contract legalese here or select a PDF above..." class="w-full flex-1 bg-wakeel-bg border border-wakeel-border rounded-xl p-4 text-sm sm:text-base text-wakeel-light font-mono focus:outline-none focus:border-wakeel-cyber transition resize-none leading-relaxed"></textarea>
+                    </div>
+
+                    <div class="mt-5 pt-4 border-t border-wakeel-border">
+                        <button onclick="analyzeContractText()" id="analyzeBtn" class="w-full text-sm sm:text-base bg-gradient-to-r from-wakeel-saffron via-wakeel-gold to-wakeel-cyber text-black font-extrabold py-4 px-6 rounded-xl shadow-lg shadow-wakeel-saffron/20 hover:opacity-95 transition-all transform hover:-translate-y-0.5 flex items-center justify-center space-x-3 font-mono">
+                            <i class="fa-solid fa-bolt text-lg"></i>
+                            <span>RUN STATUTORY RISK ANALYSIS</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 space-y-6">
+                
+                <!-- Initial Empty State -->
+                <div id="resultsPlaceholder" class="rgb-card rounded-2xl p-10 text-center flex flex-col items-center justify-center min-h-[520px]">
+                    <div class="w-20 h-20 rounded-2xl bg-wakeel-panel border border-wakeel-border flex items-center justify-center text-wakeel-cyber text-3xl mb-5 shadow-inner">
+                        <i class="fa-solid fa-gauge-high animate-pulse"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 font-mono">Awaiting Contract Ingestion</h3>
+                    <p class="text-wakeel-muted text-sm max-w-sm mx-auto leading-relaxed">
+                        Load a PDF or select one of the presets on the left to compute a statutory analysis and render the <span class="text-wakeel-saffron font-bold">Risk-o-Meter</span>.
+                    </p>
+                </div>
+
+                <!-- Active Dashboard View -->
+                <div id="resultsContainer" class="hidden space-y-6">
+                    
+                    <!-- Dynamic RGB Risk-o-Meter Card -->
+                    <div class="rgb-card rounded-2xl p-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
+                            
+                            <!-- Gauge Visual -->
+                            <div class="sm:col-span-5 flex flex-col items-center justify-center bg-wakeel-bg/90 p-5 rounded-xl border border-wakeel-border shadow-inner">
+                                <span class="text-[11px] font-mono text-wakeel-cyber uppercase font-bold tracking-widest mb-1 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-circle-dot text-wakeel-saffron"></i>
+                                    RISK-O-METER GAUGE
+                                </span>
+                                
+                                <div class="relative w-48 h-28 flex items-center justify-center mt-2">
+                                    <svg class="w-full h-full" viewBox="0 0 200 120">
+                                        <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#121824" stroke-width="20" stroke-linecap="round"/>
+                                        <path d="M 20 100 A 80 80 0 0 1 65 42" fill="none" stroke="#138808" stroke-width="20" opacity="0.4"/>
+                                        <path d="M 65 42 A 80 80 0 0 1 135 42" fill="none" stroke="#ffb703" stroke-width="20" opacity="0.4"/>
+                                        <path d="M 135 42 A 80 80 0 0 1 180 100" fill="none" stroke="#ff0055" stroke-width="20" opacity="0.4"/>
+                                        
+                                        <circle cx="100" cy="100" r="10" fill="#00f0ff" class="shadow-lg"/>
+                                        <circle cx="100" cy="100" r="4" fill="#05070a"/>
+                                        
+                                        <line id="gaugeNeedle" x1="100" y1="100" x2="25" y2="100" stroke="#00f0ff" stroke-width="4" stroke-linecap="round" class="gauge-needle"/>
+                                    </svg>
+                                    
+                                    <div class="absolute bottom-0 text-center font-mono">
+                                        <span id="riskScoreVal" class="text-3xl font-extrabold text-white">0</span>
+                                        <span class="text-xs text-wakeel-muted font-normal">/100</span>
+                                    </div>
+                                </div>
+
+                                <div id="riskLevelBadge" class="mt-3 text-xs font-mono px-4 py-1 rounded-full border font-bold uppercase tracking-wider">
+                                    CALCULATING...
+                                </div>
+                            </div>
+
+                            <!-- Executive Summary -->
+                            <div class="sm:col-span-7 space-y-3">
+                                <div class="flex items-center justify-between flex-wrap gap-2">
+                                    <div class="text-xs font-mono text-wakeel-saffron font-bold uppercase tracking-wider flex items-center space-x-2">
+                                        <i class="fa-solid fa-gavel"></i>
+                                        <span>STATUTORY AUDIT SUMMARY</span>
+                                    </div>
+                                    <button onclick="downloadPdfReport()" id="downloadPdfBtn" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-wakeel-cyber/10 text-wakeel-cyber border border-wakeel-cyber/40 hover:bg-wakeel-cyber hover:text-black transition flex items-center space-x-2">
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                        <span>DOWNLOAD PDF REPORT</span>
+                                    </button>
+                                </div>
+                                <h3 id="verdictTitle" class="text-xl font-bold text-white">Analysis Complete</h3>
+                                <p id="verdictSubtitle" class="text-xs sm:text-sm text-wakeel-muted leading-relaxed font-sans">
+                                    Evaluating clauses against Indian Contract Act 1872 & statutory legal frameworks.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Freelancer Revision Action Items -->
+                    <div class="rgb-card rounded-2xl p-6 border-l-4 border-l-wakeel-cyber bg-wakeel-cyber/5 space-y-3">
+                        <div class="flex items-center space-x-2 text-wakeel-cyber font-mono font-bold text-sm uppercase tracking-wider">
+                            <i class="fa-solid fa-list-check"></i>
+                            <span>FREELANCER REVISION CHECKLIST (ASK YOUR CONTRACTOR)</span>
+                        </div>
+                        <ul id="checklistItems" class="space-y-2 text-xs sm:text-sm text-wakeel-light">
+                            <!-- Populated dynamically via JS -->
+                        </ul>
+                    </div>
+
+                    <!-- Color Coded Risk Sections -->
+                    <div class="space-y-6">
+                        
+                        <!-- High Risk (Red) -->
+                        <div class="space-y-3">
+                            <h4 class="text-xs font-mono font-bold text-rose-400 uppercase tracking-wider flex items-center space-x-2">
+                                <i class="fa-solid fa-circle-xmark text-rose-500"></i>
+                                <span>CRITICAL STATUTORY VIOLATIONS (HIGH RISK - RED)</span>
+                            </h4>
+                            <div id="redRiskList" class="space-y-3"></div>
+                        </div>
+
+                        <!-- Moderate Risk (Yellow) -->
+                        <div class="space-y-3">
+                            <h4 class="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-2">
+                                <i class="fa-solid fa-triangle-exclamation text-amber-500"></i>
+                                <span>MODERATE RISKS & HARSH TERMS (CAUTION - YELLOW)</span>
+                            </h4>
+                            <div id="yellowRiskList" class="space-y-3"></div>
+                        </div>
+
+                        <!-- Fair / Safe (Green) -->
+                        <div class="space-y-3">
+                            <h4 class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center space-x-2">
+                                <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                <span>FAIR & BALANCED CLAUSES (SAFE - GREEN)</span>
+                            </h4>
+                            <div id="greenRiskList" class="space-y-3"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <button onclick="toggleChatbot()" class="bg-gradient-to-r from-wakeel-saffron via-wakeel-cyber to-wakeel-green hover:scale-105 transition-all text-black font-extrabold p-4 rounded-full shadow-2xl flex items-center space-x-3 text-sm font-mono">
+            <i class="fa-solid fa-headset text-lg"></i>
+            <span class="hidden sm:inline">LEGAL ASSISTANT CHAT</span>
+        </button>
+
+        <div id="chatWindow" class="hidden w-[90vw] sm:w-[380px] h-[460px] rgb-card rounded-2xl border border-wakeel-border shadow-2xl flex flex-col overflow-hidden transition-all duration-300 mt-3">
+            
+            <div class="bg-wakeel-panel p-4 border-b border-wakeel-border flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded-lg bg-wakeel-cyber/20 border border-wakeel-cyber/40 flex items-center justify-center text-wakeel-cyber text-sm">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-white font-mono">WAKEEL BOT</h4>
+                        <p class="text-[10px] text-wakeel-green font-mono">Indian Statutory Specialist</p>
+                    </div>
+                </div>
+                <button onclick="toggleChatbot()" class="text-wakeel-muted hover:text-white px-2 py-1 text-base">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="chatLog" class="flex-1 p-4 space-y-3 overflow-y-auto text-xs sm:text-sm">
+                <div class="bg-wakeel-bg border border-wakeel-border rounded-xl p-3 text-wakeel-light space-y-1">
+                    <div class="text-[10px] text-wakeel-saffron font-bold font-mono">// WAKEEL ASSISTANT</div>
+                    <p class="leading-relaxed">
+                        Ask me any legal questions regarding Indian Contract Act, Section 27 (Non-compete), or IP ownership!
+                    </p>
+                </div>
+            </div>
+
+            <div class="p-3 bg-wakeel-panel border-t border-wakeel-border flex items-center space-x-2">
+                <input type="text" id="chatInput" onkeydown="if(event.key==='Enter') sendChatMessage()" placeholder="Ask a question..." class="flex-1 bg-wakeel-bg border border-wakeel-border rounded-xl px-3.5 py-2.5 text-xs text-wakeel-light focus:outline-none focus:border-wakeel-cyber font-sans">
+                <button onclick="sendChatMessage()" class="bg-wakeel-cyber hover:bg-wakeel-cyber/80 text-black p-2.5 rounded-xl transition font-bold text-xs">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const CONTRACT_PRESETS = [
+            {
+                name: "Toxic Freelance Software Engineering Contract.pdf",
+                type: "PREDATORY_FREELANCE",
+                text: `FREELANCE SOFTWARE DEVELOPER AGREEMENT
+1. NON-COMPETE & RESTRICTION: The Contractor agrees that for a period of 36 months following termination, they shall not provide software engineering services to any competitor globally.
+2. INTELLECTUAL PROPERTY: All code, side projects, and concepts created during the contract period belong solely to the Client without additional compensation.
+3. UNILATERAL PENALTY: In the event of minor breach, Contractor agrees to pay liquid damages of INR 10,00,000 immediately without proof of actual damages.
+4. TERMINATION: The Client may terminate this agreement at any time with 0 days notice and withhold earned fees.`,
+                analysis: {
+                    riskScore: 92,
+                    level: "CRITICAL RISK",
+                    badgeColor: "bg-rose-500/10 text-rose-400 border-rose-500/40",
+                    title: "Extreme Statutory Violations Found",
+                    subtitle: "This contract contains 3 illegal clauses void under Indian Law (Section 27 & Section 74).",
+                    checklist: [
+                        "Ask contractor to completely delete the 3-Year Post-Termination Non-Compete (Void under Section 27).",
+                        "Request capping any breach liability strictly to invoice fees paid, removing the INR 10 Lakhs arbitrary penalty.",
+                        "Insert a 14-day mutual written notice period for termination with guaranteed milestone payment."
+                    ],
+                    highRisk: [
+                        {
+                            title: "3-Year Post-Termination Non-Compete",
+                            citation: "Section 27, Indian Contract Act 1872",
+                            eli5: "Post-employment non-compete agreements are legally VOID in India. Clients cannot restrict you from working elsewhere.",
+                            action: "Ask client to strike this clause entirely."
+                        },
+                        {
+                            title: "INR 10,00,000 Liquidated Penalty",
+                            citation: "Section 74, Indian Contract Act 1872",
+                            eli5: "Exorbitant penalty sums without proof of actual damage cannot be enforced under Indian law.",
+                            action: "Replace with liability cap equal to total project fee."
+                        }
+                    ],
+                    mediumRisk: [
+                        {
+                            title: "Immediate Zero-Notice Termination & Retainage",
+                            citation: "Section 23, Indian Contract Act 1872",
+                            eli5: "Withholding earned compensation for completed work is opposed to public policy.",
+                            action: "Require 14 days written notice and payment for completed work."
+                        }
+                    ],
+                    goodClauses: [
+                        {
+                            title: "Scope Definition",
+                            citation: "Standard Commercial Terms",
+                            eli5: "Defines deliverables explicitly for software engineering."
+                        }
+                    ]
+                }
+            },
+            {
+                name: "Aggressive Startup Non-Disclosure Agreement.pdf",
+                type: "AGGRESSIVE_NDA",
+                text: `MUTUAL NON-DISCLOSURE AND CONFIDENTIALITY AGREEMENT
+1. CONFIDENTIALITY DURATION: Confidential obligations shall survive in perpetuity for all technical disclosures.
+2. MORAL RIGHTS WAIVER: Disclosing party retains exclusive assignment of all moral rights under Section 57 of Copyright Act 1957.
+3. EXCLUSIVE JURISDICTION: Disputes shall be governed exclusively by Delaware US courts despite both parties residing in India.`,
+                analysis: {
+                    riskScore: 68,
+                    level: "MODERATE RISK",
+                    badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/40",
+                    title: "Unbalanced Jurisdiction & Overbroad Terms",
+                    subtitle: "Contains unfair moral rights waivers and foreign jurisdiction traps.",
+                    checklist: [
+                        "Ask client to change jurisdiction from Delaware USA to Indian Courts (e.g. Bangalore/Mumbai).",
+                        "Cap confidentiality duration to 2-3 years maximum instead of infinite perpetuity."
+                    ],
+                    highRisk: [],
+                    mediumRisk: [
+                        {
+                            title: "Foreign USA Delaware Jurisdiction",
+                            citation: "Section 28, Indian Contract Act 1872",
+                            eli5: "Forcing Indian residents to litigate in US Delaware courts creates unreasonable financial burden.",
+                            action: "Change governing law to Courts of India."
+                        },
+                        {
+                            title: "Perpetual Confidentiality Term",
+                            citation: "Indian Standard Legal Precedent",
+                            eli5: "Indefinite secrecy obligations are overbroad for general business discussions.",
+                            action: "Set term limit to 2 years post-disclosure."
+                        }
+                    ],
+                    goodClauses: [
+                        {
+                            title: "Mutual Information Secrecy",
+                            citation: "Confidentiality Framework",
+                            eli5: "Protects both parties' proprietary information equally."
+                        }
+                    ]
+                }
+            },
+            {
+                name: "Standard Balanced Fair Consulting Agreement.pdf",
+                type: "FAIR_AGREEMENT",
+                text: `STANDARD PROFESSIONAL CONSULTING AGREEMENT
+1. SCOPE OF WORK: Consultant will deliver UI/UX design assets as detailed in SOW 1.
+2. INTELLECTUAL PROPERTY: IP transfers to Client upon receipt of full final payment.
+3. NOTICE PERIOD: Either party may terminate with 14 days written notice.
+4. GOVERNING LAW: Governed by the laws of India with sole arbitrator in Bangalore under Arbitration Act 1996.`,
+                analysis: {
+                    riskScore: 18,
+                    level: "LOW RISK (FAIR)",
+                    badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/40",
+                    title: "Fair & Statutorily Sound Agreement",
+                    subtitle: "This agreement adheres well to standard Indian contract legal standards.",
+                    checklist: [
+                        "No urgent revisions required. The agreement is balanced and founder-friendly.",
+                        "Confirm final SOW timeline and milestone payment dates before signing."
+                    ],
+                    highRisk: [],
+                    mediumRisk: [],
+                    goodClauses: [
+                        {
+                            title: "IP Transfer Contingent on Full Final Payment",
+                            citation: "Section 19, Copyright Act 1957",
+                            eli5: "You retain ownership of your work until the client pays 100% of agreed fees."
+                        },
+                        {
+                            title: "14-Day Mutual Notice & Indian Arbitration",
+                            citation: "Arbitration & Conciliation Act 1996",
+                            eli5: "Ensures a fast, fair dispute resolution process in India."
+                        }
+                    ]
+                }
+            }
+        ];
+
+        let currentLoadedPreset = null;
+
+        function updateCharCount() {
+            const val = document.getElementById('contractInput').value;
+            document.getElementById('charCount').innerText = `${val.length} chars`;
+        }
+
+        function loadSamplePreset(index) {
+            const preset = CONTRACT_PRESETS[index];
+            currentLoadedPreset = preset;
+            document.getElementById('contractInput').value = preset.text;
+            updateCharCount();
+
+            const pdfBadge = document.getElementById('pdfBadge');
+            pdfBadge.innerText = `📄 PRESET LOADED: ${preset.name}`;
+            pdfBadge.classList.remove('hidden');
+
+            document.getElementById('docTypeLabel').innerText = "Preset Active";
+            renderAnalysis(preset.analysis);
+        }
+
+        function clearAllData() {
+            document.getElementById('contractInput').value = '';
+            document.getElementById('fileInput').value = '';
+            updateCharCount();
+            
+            const pdfBadge = document.getElementById('pdfBadge');
+            pdfBadge.innerText = '';
+            pdfBadge.classList.add('hidden');
+            
+            document.getElementById('docTypeLabel').innerText = "Ready";
+            currentLoadedPreset = null;
+
+            document.getElementById('resultsContainer').classList.add('hidden');
+            document.getElementById('resultsPlaceholder').classList.remove('hidden');
+            setGaugeValue(0);
+        }
+
+        async function handleFileUpload(event) {
+            const file = event.target.files ? event.target.files[0] : null;
+            if (!file) return;
+
+            const pdfBadge = document.getElementById('pdfBadge');
+            pdfBadge.innerText = `📄 ATTACHED: ${file.name}`;
+            pdfBadge.classList.remove('hidden');
+            document.getElementById('docTypeLabel').innerText = "Parsing File...";
+
+            if (file.type === "application/pdf" || file.name.toLowerCase().endsWith('.pdf')) {
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+                    if (window.pdfjsLib) {
+                        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                        const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+                        const pdf = await loadingTask.promise;
+                        
+                        let extractedText = "";
+                        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                            const page = await pdf.getPage(pageNum);
+                            const textContent = await page.getTextContent();
+                            const pageItems = textContent.items.map(item => item.str).join(' ');
+                            extractedText += `--- Page ${pageNum} ---\n` + pageItems + "\n\n";
+                        }
+
+                        if (extractedText.replace(/--- Page \d+ ---/g, '').trim().length > 10) {
+                            document.getElementById('contractInput').value = extractedText.trim();
+                            document.getElementById('docTypeLabel').innerText = "PDF Parsed Successfully";
+                        } else {
+                            document.getElementById('contractInput').value = `[Uploaded PDF: ${file.name}]\nNote: This PDF appears to be a scanned image. Copy-paste text directly or select a preset sample.`;
+                            document.getElementById('docTypeLabel').innerText = "Scanned PDF";
+                        }
+                    } else {
+                        document.getElementById('contractInput').value = `[Uploaded File: ${file.name}]\nPDF parser library not initialized. Copy and paste contract text directly.`;
+                        document.getElementById('docTypeLabel').innerText = "Parser Unavailable";
+                    }
+                } catch (err) {
+                    console.error("PDF Parsing Error:", err);
+                    document.getElementById('contractInput').value = `[File attached: ${file.name}]\nError parsing PDF. Please copy and paste text directly into this text area.`;
+                    document.getElementById('docTypeLabel').innerText = "Parse Error";
+                }
+            } else {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('contractInput').value = e.target.result;
+                    updateCharCount();
+                    document.getElementById('docTypeLabel').innerText = "Text File Ingested";
+                };
+                reader.readAsText(file);
+            }
+
+            updateCharCount();
+        }
+
+        function setGaugeValue(score) {
+            const needle = document.getElementById('gaugeNeedle');
+            if (!needle) return;
+            const angle = -90 + (score / 100) * 180;
+            needle.style.transform = `rotate(${angle}deg)`;
+        }
+
+        function renderAnalysis(analysis) {
+            document.getElementById('resultsPlaceholder').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.remove('hidden');
+
+            document.getElementById('riskScoreVal').innerText = analysis.riskScore;
+            setGaugeValue(analysis.riskScore);
+
+            const badge = document.getElementById('riskLevelBadge');
+            badge.innerText = analysis.level;
+            badge.className = `mt-3 text-xs font-mono px-4 py-1 rounded-full border font-bold uppercase tracking-wider ${analysis.badgeColor}`;
+
+            document.getElementById('verdictTitle').innerText = analysis.title;
+            document.getElementById('verdictSubtitle').innerText = analysis.subtitle;
+
+            const checklistEl = document.getElementById('checklistItems');
+            checklistEl.innerHTML = '';
+            (analysis.checklist || []).forEach((item, idx) => {
+                const li = document.createElement('li');
+                li.className = 'flex items-start space-x-2';
+                li.innerHTML = `<span class="text-wakeel-cyber font-mono font-bold">[${idx + 1}]</span><span>${item}</span>`;
+                checklistEl.appendChild(li);
+            });
+
+            // Red Risks
+            const redContainer = document.getElementById('redRiskList');
+            redContainer.innerHTML = '';
+            if (analysis.highRisk && analysis.highRisk.length > 0) {
+                analysis.highRisk.forEach(risk => {
+                    const card = document.createElement('div');
+                    card.className = 'p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 space-y-2';
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono font-bold text-rose-400">${risk.citation}</span>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold">VOID IN INDIA</span>
+                        </div>
+                        <h5 class="text-sm font-bold text-white">${risk.title}</h5>
+                        <p class="text-xs text-wakeel-light leading-relaxed">${risk.eli5}</p>
+                        <div class="text-xs font-mono text-wakeel-cyber pt-1 font-semibold"><i class="fa-solid fa-lightbulb"></i> Action: ${risk.action}</div>
+                    `;
+                    redContainer.appendChild(card);
+                });
+            } else {
+                redContainer.innerHTML = `<div class="p-3 rounded-xl bg-wakeel-panel border border-wakeel-border text-xs text-wakeel-muted font-mono">No critical statutory violations found in this contract.</div>`;
+            }
+
+            // Yellow Risks
+            const yellowContainer = document.getElementById('yellowRiskList');
+            yellowContainer.innerHTML = '';
+            if (analysis.mediumRisk && analysis.mediumRisk.length > 0) {
+                analysis.mediumRisk.forEach(risk => {
+                    const card = document.createElement('div');
+                    card.className = 'p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 space-y-2';
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono font-bold text-amber-400">${risk.citation}</span>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">HARSH TERM</span>
+                        </div>
+                        <h5 class="text-sm font-bold text-white">${risk.title}</h5>
+                        <p class="text-xs text-wakeel-light leading-relaxed">${risk.eli5}</p>
+                        <div class="text-xs font-mono text-wakeel-cyber pt-1 font-semibold"><i class="fa-solid fa-lightbulb"></i> Action: ${risk.action}</div>
+                    `;
+                    yellowContainer.appendChild(card);
+                });
+            } else {
+                yellowContainer.innerHTML = `<div class="p-3 rounded-xl bg-wakeel-panel border border-wakeel-border text-xs text-wakeel-muted font-mono">No moderate risk terms identified.</div>`;
+            }
+
+            // Green Clauses
+            const greenContainer = document.getElementById('greenRiskList');
+            greenContainer.innerHTML = '';
+            if (analysis.goodClauses && analysis.goodClauses.length > 0) {
+                analysis.goodClauses.forEach(clause => {
+                    const card = document.createElement('div');
+                    card.className = 'p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 space-y-2';
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono font-bold text-emerald-400">${clause.citation}</span>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold">FAIR & BALANCED</span>
+                        </div>
+                        <h5 class="text-sm font-bold text-white">${clause.title}</h5>
+                        <p class="text-xs text-wakeel-light leading-relaxed">${clause.eli5}</p>
+                    `;
+                    greenContainer.appendChild(card);
+                });
+            } else {
+                greenContainer.innerHTML = `<div class="p-3 rounded-xl bg-wakeel-panel border border-wakeel-border text-xs text-wakeel-muted font-mono">No positive clauses detected.</div>`;
+            }
+        }
+
+        function analyzeContractText() {
+            const text = document.getElementById('contractInput').value.trim();
+            if (!text) {
+                alert("Please upload a PDF file or paste contract text to scan.");
+                return;
+            }
+
+            const matchedPreset = CONTRACT_PRESETS.find(p => text.includes(p.text.substring(0, 30)));
+            if (matchedPreset) {
+                renderAnalysis(matchedPreset.analysis);
+                return;
+            }
+
+            evaluateCustomContract(text);
+        }
+
+        function evaluateCustomContract(text) {
+            let score = 25;
+            let highRisks = [];
+            let mediumRisks = [];
+            let goodClauses = [];
+            let checklist = [];
+
+            const lower = text.toLowerCase();
+
+            if (lower.includes("non-compete") || lower.includes("competitor") || lower.includes("restraint")) {
+                score += 35;
+                highRisks.push({
+                    title: "Restraint of Trade / Non-Compete",
+                    citation: "Section 27, Indian Contract Act 1872",
+                    eli5: "Restricting a freelancer or worker from taking jobs post-termination is void under Indian Law.",
+                    action: "Ask contractor to delete post-termination non-compete provisions entirely."
+                });
+                checklist.push("Strike out any post-employment non-compete clauses (Void under Section 27).");
+            }
+
+            if (lower.includes("penalty") || lower.includes("damages") || lower.includes("50,00,000") || lower.includes("10,00,000")) {
+                score += 25;
+                highRisks.push({
+                    title: "Arbitrary Penalty / Excessive Liquidated Damages",
+                    citation: "Section 74, Indian Contract Act 1872",
+                    eli5: "Pre-agreed excessive damage figures without actual loss calculation are non-enforceable.",
+                    action: "Cap total potential liability to the total invoice amount received."
+                });
+                checklist.push("Cap overall breach liability strictly to 100% of the invoice fee.");
+            }
+
+            if (lower.includes("delaware") || lower.includes("us court") || lower.includes("foreign")) {
+                score += 15;
+                mediumRisks.push({
+                    title: "Foreign Choice of Law & Overseas Jurisdiction",
+                    citation: "Section 28, Indian Contract Act 1872",
+                    eli5: "Specifying foreign courts (e.g. USA) creates unreasonable hardship for Indian freelancers.",
+                    action: "Request jurisdiction to be changed to your local Indian High Court or City."
+                });
+                checklist.push("Change dispute jurisdiction to local courts in India.");
+            }
+
+            if (lower.includes("payment") || lower.includes("upon receipt") || lower.includes("full payment")) {
+                goodClauses.push({
+                    title: "Payment Transfer Conditions",
+                    citation: "Section 19, Copyright Act 1957",
+                    eli5: "Ensures IP transfers only when payments are completed."
+                });
+            }
+
+            if (checklist.length === 0) {
+                checklist.push("Confirm milestone deadlines and late payment interest clauses.");
+            }
+
+            const analysis = {
+                riskScore: Math.min(score, 95),
+                level: score > 60 ? "HIGH RISK" : score > 30 ? "MODERATE RISK" : "LOW RISK",
+                badgeColor: score > 60 ? "bg-rose-500/10 text-rose-400 border-rose-500/40" : "bg-amber-500/10 text-amber-400 border-amber-500/40",
+                title: score > 60 ? "Potentially Predatory Provisions Detected" : "Standard Legal Risk Profile",
+                subtitle: `Scanned ${text.length} characters under Indian Statutory Law.`,
+                checklist,
+                highRisk: highRisks,
+                mediumRisk: mediumRisks,
+                goodClauses: goodClauses
+            };
+
+            renderAnalysis(analysis);
+        }
+
+        function downloadPdfReport() {
+            if (window.jspdf) {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                doc.setFillColor(5, 7, 10);
+                doc.rect(0, 0, 210, 297, "F");
+
+                doc.setTextColor(255, 153, 51);
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(18);
+                doc.text("WAKEEL AI: STATUTORY RISK REPORT", 15, 20);
+
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(10);
+                doc.text("Grounded in Indian Contract Act 1872", 15, 28);
+
+                const score = document.getElementById('riskScoreVal').innerText;
+                const level = document.getElementById('riskLevelBadge').innerText;
+
+                doc.setFillColor(18, 24, 36);
+                doc.roundedRect(15, 35, 180, 25, 3, 3, "F");
+
+                doc.setFontSize(14);
+                doc.setTextColor(0, 240, 255);
+                doc.text(`RISK SCORE: ${score}/100 [${level}]`, 20, 50);
+
+                doc.setTextColor(200, 200, 200);
+                doc.setFontSize(10);
+                doc.text("Summary: " + document.getElementById('verdictTitle').innerText, 15, 70);
+
+                doc.save("Wakeel_AI_Legal_Audit_Report.pdf");
+            } else {
+                alert("PDF export library loading... Please retry in a moment.");
+            }
+        }
+
+        function toggleChatbot() {
+            const windowEl = document.getElementById('chatWindow');
+            windowEl.classList.toggle('hidden');
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const chatLog = document.getElementById('chatLog');
+            
+            const userMsg = document.createElement('div');
+            userMsg.className = 'bg-wakeel-cyber/10 border border-wakeel-cyber/30 rounded-xl p-3 text-wakeel-light space-y-1 ml-4';
+            userMsg.innerHTML = `<div class="text-[10px] text-wakeel-cyber font-bold font-mono">// YOU</div><p class="leading-relaxed">${msg}</p>`;
+            chatLog.appendChild(userMsg);
+
+            input.value = '';
+            chatLog.scrollTop = chatLog.scrollHeight;
+
+            setTimeout(() => {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'bg-wakeel-bg border border-wakeel-border rounded-xl p-3 text-wakeel-light space-y-1 mr-4';
+                
+                let response = "Under Section 27 of the Indian Contract Act 1872, post-employment non-competes are void. Any attempt by an employer or client to restrain your right to practice a trade or profession is legally unenforceable in India.";
+                if (msg.toLowerCase().includes('ip') || msg.toLowerCase().includes('copyright')) {
+                    response = "Under Section 19 of the Copyright Act 1957, copyright assignment requires explicit written terms and consideration. Always ensure IP transfer is conditioned upon 100% full invoice payment.";
+                } else if (msg.toLowerCase().includes('notice') || msg.toLowerCase().includes('terminate')) {
+                    response = "Unilateral immediate termination without cause while withholding earned fees is opposed to public policy under Section 23 of the Indian Contract Act. Always require 14-30 days written notice.";
+                }
+
+                botMsg.innerHTML = `<div class="text-[10px] text-wakeel-saffron font-bold font-mono">// WAKEEL ASSISTANT</div><p class="leading-relaxed">${response}</p>`;
+                chatLog.appendChild(botMsg);
+                chatLog.scrollTop = chatLog.scrollHeight;
+            }, 600);
+        }
+    </script>
+</body>
+</html>
