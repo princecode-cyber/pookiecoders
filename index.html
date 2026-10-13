@@ -1,934 +1,958 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WAKEEL AI // THE LEGAL AI SENTINEL FOR INDIA</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- PDF parsing helper library for client-side processing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <!-- jsPDF for PDF Report Generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        wakeel: {
-                            bg: '#05070a',
-                            card: '#0b0f17',
-                            panel: '#121824',
-                            border: '#1e293b',
-                            saffron: '#FF9933',
-                            white: '#FFFFFF',
-                            green: '#138808',
-                            navy: '#000080',
-                            cyber: '#00f0ff',
-                            magenta: '#ff0055',
-                            gold: '#ffb703',
-                            muted: '#64748b'
-                        }
-                    },
-                    fontFamily: {
-                        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
-                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #05070a;
-            color: #f8fafc;
-            overflow-x: hidden;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAKEEL AI // Legal Sentinel for Freelancers, Employees & Businesses in India</title>
 
-        .font-mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        /* Continuous Tricolour Ambient Gradient Running Background */
-        .tricolour-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -2;
-            background: linear-gradient(
-                125deg,
-                rgba(255, 153, 51, 0.12) 0%,
-                rgba(255, 255, 255, 0.05) 50%,
-                rgba(19, 136, 8, 0.12) 100%
-            );
-            background-size: 300% 300%;
-            animation: tricolourFlow 12s ease infinite;
-        }
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: { extend: {
+    colors: { wk: { bg:'#05070d', card:'#0b1019', panel:'#121a29', border:'#1e2a3d', saffron:'#FF9933', green:'#138808', cyber:'#00f0ff', gold:'#ffb703', muted:'#7a8aa3' } },
+    fontFamily: { mono:['JetBrains Mono','monospace'], sans:['Plus Jakarta Sans','Inter','sans-serif'] }
+  }}
+}
+</script>
 
-        @keyframes tricolourFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+<style>
+:root { --accent:#FF9933; --accent-rgb:255,153,51; }
+body { font-family:'Plus Jakarta Sans',sans-serif; background:#05070d; color:#e8eef9; overflow-x:hidden; }
+.font-mono { font-family:'JetBrains Mono',monospace; }
 
-        /* Animated Tricolour Top Accent Line */
-        .tricolour-top-bar {
-            height: 3px;
-            width: 100%;
-            background: linear-gradient(90deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
-            background-size: 200% 100%;
-            animation: moveTricolour 4s linear infinite;
-        }
+/* ---------- Smooth aurora background ---------- */
+.aurora { position:fixed; inset:0; z-index:-3; overflow:hidden; background:radial-gradient(ellipse at 50% 0%, #0b1220 0%, #05070d 70%); }
+.blob { position:absolute; border-radius:50%; filter:blur(110px); opacity:.30; will-change:transform; }
+.blob.b1 { width:46vw; height:46vw; left:-10vw; top:-12vw; background:#FF9933; animation:driftA 32s ease-in-out infinite alternate; }
+.blob.b2 { width:42vw; height:42vw; right:-12vw; top:8vh; background:#2b5cff; opacity:.22; animation:driftB 38s ease-in-out infinite alternate; }
+.blob.b3 { width:44vw; height:44vw; left:18vw; bottom:-22vw; background:#138808; animation:driftC 34s ease-in-out infinite alternate; }
+.blob.b4 { width:30vw; height:30vw; left:40vw; top:30vh; background:var(--accent); opacity:.16; transition:background-color 1.2s ease; animation:driftD 26s ease-in-out infinite alternate; }
+@keyframes driftA { to { transform:translate(18vw,14vh) scale(1.2); } }
+@keyframes driftB { to { transform:translate(-16vw,20vh) scale(.9); } }
+@keyframes driftC { to { transform:translate(14vw,-16vh) scale(1.15); } }
+@keyframes driftD { to { transform:translate(-18vw,-10vh) scale(1.3); } }
+.grid-overlay { position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background-image:linear-gradient(to right, rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size:44px 44px; -webkit-mask-image:radial-gradient(ellipse at center, #000 30%, transparent 78%); mask-image:radial-gradient(ellipse at center, #000 30%, transparent 78%); }
+.tri-bar { height:3px; background:linear-gradient(90deg,#FF9933,#fff,#138808,#fff,#FF9933); background-size:300% 100%; animation:triMove 8s linear infinite; }
+@keyframes triMove { to { background-position:300% 0; } }
 
-        @keyframes moveTricolour {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 200% 0%; }
-        }
+/* ---------- Glass ---------- */
+.glass { background:rgba(12,17,27,.72); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); border:1px solid rgba(255,255,255,.07); box-shadow:0 10px 40px rgba(0,0,0,.45); }
+.rgb-text { background:linear-gradient(90deg,#FF9933,#00f0ff,#138808,#FF9933); background-size:250% auto; -webkit-background-clip:text; background-clip:text; color:transparent; animation:shine 7s linear infinite; }
+@keyframes shine { to { background-position:250% center; } }
 
-        /* Cyber RGB Glow Panels */
-        .rgb-card {
-            background: rgba(11, 15, 23, 0.85);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            position: relative;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+/* ---------- Stack cards ---------- */
+.stack-card { cursor:pointer; position:relative; border-radius:18px; padding:18px; border:1px solid rgba(255,255,255,.07); background:rgba(12,17,27,.6); transition:transform .35s cubic-bezier(.2,.8,.2,1), border-color .35s, background .35s, box-shadow .35s; text-align:left; }
+.stack-card:hover { transform:translateY(-3px); border-color:rgba(255,255,255,.2); }
+.stack-card.active { border-color:var(--c); background:linear-gradient(160deg, rgba(var(--crgb),.16), rgba(12,17,27,.7)); box-shadow:0 0 0 1px var(--c), 0 12px 40px rgba(var(--crgb),.18); }
+.stack-card .ico { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; color:var(--c); background:rgba(var(--crgb),.12); border:1px solid rgba(var(--crgb),.35); }
+.pill { cursor:pointer; padding:9px 14px; border-radius:999px; font-size:12px; font-family:'JetBrains Mono',monospace; font-weight:700; border:1px solid rgba(255,255,255,.1); background:rgba(18,26,41,.7); color:#9fb0c9; transition:all .25s; white-space:nowrap; }
+.pill:hover { color:#fff; border-color:rgba(255,255,255,.3); }
+.pill.active { color:#05070d; background:var(--accent); border-color:var(--accent); box-shadow:0 6px 22px rgba(var(--accent-rgb),.35); }
+.btn-main { background:linear-gradient(100deg,var(--accent),#ffb703 60%,#00f0ff); color:#05070d; font-weight:800; transition:transform .25s, box-shadow .25s, opacity .25s; box-shadow:0 8px 28px rgba(var(--accent-rgb),.28); }
+.btn-main:hover { transform:translateY(-2px); box-shadow:0 12px 34px rgba(var(--accent-rgb),.4); }
+.btn-main:disabled { opacity:.7; cursor:wait; transform:none; }
+.fadein { animation:fadeUp .55s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(14px);} to { opacity:1; transform:none;} }
+.finding { animation:fadeUp .5s cubic-bezier(.2,.8,.2,1) both; }
+.gauge-needle { transition:transform 1.3s cubic-bezier(.34,1.4,.64,1); transform-origin:100px 100px; }
+.num-in { background:#080c14; border:1px solid #1e2a3d; border-radius:10px; padding:8px 10px; font-family:'JetBrains Mono',monospace; font-size:13px; color:#e8eef9; width:100%; transition:border-color .2s; }
+.num-in:focus { outline:none; border-color:var(--accent); }
 
-        .rgb-card::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border-radius: inherit;
-            padding: 1px;
-            background: linear-gradient(135deg, rgba(255,153,51,0.4), rgba(0,240,255,0.2), rgba(19,136,8,0.4));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
-        }
+/* ---------- Chat ---------- */
+#chatWindow { opacity:0; transform:translateY(18px) scale(.96); pointer-events:none; transition:opacity .3s ease, transform .35s cubic-bezier(.2,.9,.3,1.1); transform-origin:bottom right; }
+#chatWindow.open { opacity:1; transform:none; pointer-events:auto; }
+.chat-shell { background:linear-gradient(180deg, rgba(14,20,33,.94), rgba(8,12,20,.96)); backdrop-filter:blur(22px); border:1px solid rgba(255,255,255,.1); box-shadow:0 24px 70px rgba(0,0,0,.65), 0 0 0 1px rgba(var(--accent-rgb),.15); }
+.chat-head { background:linear-gradient(120deg, rgba(var(--accent-rgb),.22), rgba(0,240,255,.08) 60%, rgba(19,136,8,.15)); border-bottom:1px solid rgba(255,255,255,.08); }
+.bubble { animation:fadeUp .35s ease both; max-width:86%; padding:10px 13px; border-radius:16px; font-size:13px; line-height:1.55; }
+.bubble.bot { background:rgba(24,34,52,.9); border:1px solid rgba(255,255,255,.07); border-bottom-left-radius:5px; }
+.bubble.user { background:linear-gradient(135deg, var(--accent), #ffb703); color:#0a0d14; font-weight:600; border-bottom-right-radius:5px; margin-left:auto; }
+.chip { cursor:pointer; flex:none; font-size:11px; padding:6px 11px; border-radius:999px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:#b9c6dc; transition:all .2s; white-space:nowrap; }
+.chip:hover { border-color:var(--accent); color:#fff; background:rgba(var(--accent-rgb),.12); }
+.typing span { display:inline-block; width:6px; height:6px; margin:0 2px; border-radius:50%; background:#8aa0c2; animation:blink 1.2s infinite ease-in-out; }
+.typing span:nth-child(2){ animation-delay:.18s } .typing span:nth-child(3){ animation-delay:.36s }
+@keyframes blink { 0%,80%,100%{ opacity:.25; transform:translateY(0) } 40%{ opacity:1; transform:translateY(-4px) } }
+.fab { background:linear-gradient(120deg,var(--accent),#00f0ff 55%,#138808); color:#05070d; animation:fabGlow 3.5s ease-in-out infinite; }
+@keyframes fabGlow { 0%,100%{ box-shadow:0 10px 30px rgba(var(--accent-rgb),.35) } 50%{ box-shadow:0 10px 44px rgba(0,240,255,.45) } }
 
-        .rgb-card:hover::before {
-            opacity: 1;
-        }
-
-        /* Cyber Grid Background Overlay */
-        .cyber-grid {
-            position: fixed;
-            inset: 0;
-            background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* Dynamic RGB Text Animation */
-        .rgb-text {
-            background: linear-gradient(90deg, #FF9933, #00f0ff, #138808);
-            background-size: 200% auto;
-            color: transparent;
-            -webkit-background-clip: text;
-            animation: shine 4s linear infinite;
-        }
-
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
-
-        /* Risk-o-Meter Gauge Needle Animation */
-        .gauge-needle {
-            transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform-origin: 100px 100px;
-        }
-
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #05070a; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #00f0ff; }
-    </style>
+::-webkit-scrollbar { width:6px; height:6px; } ::-webkit-scrollbar-track { background:transparent; } ::-webkit-scrollbar-thumb { background:#243149; border-radius:4px; }
+.hide-sb::-webkit-scrollbar { display:none; }
+@media (prefers-reduced-motion: reduce) { .blob, .tri-bar, .rgb-text, .fab, .fadein, .finding { animation:none !important; } }
+</style>
 </head>
 
-<body class="min-h-screen flex flex-col bg-wakeel-bg text-wakeel-light selection:bg-wakeel-cyber selection:text-black">
+<body class="min-h-screen flex flex-col">
+<div class="aurora"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div></div>
+<div class="grid-overlay"></div>
+<div class="tri-bar"></div>
 
-    <div class="tricolour-bg"></div>
-    <div class="cyber-grid"></div>
-    <div class="tricolour-top-bar"></div>
+<!-- ============ HEADER ============ -->
+<header class="sticky top-0 z-40 glass border-x-0 border-t-0">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-[72px] flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-11 h-11 rounded-xl p-[2px] bg-gradient-to-tr from-wk-saffron via-wk-cyber to-wk-green">
+        <div class="w-full h-full rounded-[10px] bg-wk-bg flex items-center justify-center text-wk-cyber text-lg"><i class="fa-solid fa-scale-balanced"></i></div>
+      </div>
+      <div>
+        <h1 class="text-xl font-black tracking-tight font-mono rgb-text leading-none">WAKEEL AI</h1>
+        <p class="text-[10px] text-wk-muted font-mono mt-1 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-wk-green animate-pulse"></span>LEGAL SENTINEL FOR INDIA</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="hidden md:inline-flex items-center gap-2 text-[11px] font-mono bg-wk-panel/80 border border-wk-border px-3 py-1.5 rounded-lg text-wk-muted"><i class="fa-solid fa-flag text-wk-saffron"></i>Indian Contract Act · Copyright Act · Labour & Tax rules</span>
+      <button onclick="resetAll()" class="px-3.5 py-2 rounded-xl text-[11px] font-mono font-bold bg-wk-panel/80 hover:bg-rose-500/10 text-wk-muted hover:text-rose-400 border border-wk-border hover:border-rose-500/30 transition flex items-center gap-2"><i class="fa-solid fa-arrows-rotate"></i><span class="hidden sm:inline">RESET</span></button>
+    </div>
+  </div>
+</header>
 
-    <header class="border-b border-wakeel-border bg-wakeel-card/90 backdrop-blur-md sticky top-0 z-40 shadow-2xl">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            
-            <div class="flex items-center space-x-4">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-wakeel-saffron via-wakeel-cyber to-wakeel-green p-[2px] shadow-lg shadow-wakeel-cyber/20">
-                    <div class="w-full h-full bg-wakeel-bg rounded-[10px] flex items-center justify-center text-wakeel-cyber text-xl font-bold">
-                        <i class="fa-solid fa-scale-balanced"></i>
-                    </div>
-                </div>
-                <div>
-                    <h1 class="text-xl sm:text-2xl font-black tracking-tight text-white flex items-center gap-2">
-                        <span class="rgb-text font-mono">WAKEEL AI</span>
-                    </h1>
-                    <p class="text-xs text-wakeel-muted font-mono flex items-center gap-1.5">
-                        <span class="w-2 h-2 rounded-full bg-wakeel-green animate-ping"></span>
-                        THE LEGAL AI SENTINEL FOR INDIA
-                    </p>
-                </div>
-            </div>
+<main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6">
 
-            <div class="flex items-center space-x-3">
-                <span class="hidden md:inline-flex items-center space-x-2 text-xs font-mono bg-wakeel-panel border border-wakeel-border px-3 py-1.5 rounded-lg text-wakeel-muted">
-                    <i class="fa-solid fa-flag text-wakeel-saffron"></i>
-                    <span>INDIAN CONTRACT ACT GROUNDED</span>
-                </span>
-                <button onclick="clearAllData()" class="px-4 py-2 rounded-xl text-xs font-mono font-bold bg-wakeel-panel hover:bg-rose-500/10 text-wakeel-muted hover:text-rose-400 border border-wakeel-border hover:border-rose-500/30 transition flex items-center space-x-2">
-                    <i class="fa-solid fa-arrows-rotate"></i>
-                    <span class="hidden sm:inline">RESET SCANNER</span>
-                </button>
-            </div>
+  <!-- ============ HERO + STACK SWITCHER ============ -->
+  <section class="glass rounded-3xl p-6 sm:p-8 fadein">
+    <div class="max-w-3xl">
+      <div class="inline-flex items-center gap-2 text-[11px] font-mono font-bold px-3 py-1 rounded-lg border" style="color:var(--accent);background:rgba(var(--accent-rgb),.1);border-color:rgba(var(--accent-rgb),.3)"><i class="fa-solid fa-microchip"></i> CLAUSE SCANNER · PAYSLIP AUDITOR · RISK-O-METER</div>
+      <h2 class="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-[1.1]">One sentinel for every paper you sign.</h2>
+      <p class="mt-3 text-sm sm:text-base text-wk-muted leading-relaxed">Pick your stack. Wakeel checks freelance gigs, offer letters, internships, payslips, vendor deals, co-founder pacts and leases against Indian law, scores the risk, and tells you exactly what to ask for.</p>
+    </div>
+    <div id="stackCards" class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+  </section>
 
-        </div>
-    </header>
+  <!-- ============ DOC TYPES ============ -->
+  <section class="flex flex-col sm:flex-row sm:items-center gap-3">
+    <span id="stackLabel" class="text-[11px] font-mono font-bold tracking-wider uppercase" style="color:var(--accent)"></span>
+    <div id="docPills" class="flex gap-2 overflow-x-auto hide-sb pb-1"></div>
+  </section>
 
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        <!-- Top Banner -->
-        <div class="rgb-card rounded-2xl p-6 sm:p-8 relative overflow-hidden">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
-                <div class="space-y-2 max-w-3xl">
-                    <div class="inline-flex items-center space-x-2 text-xs font-mono font-bold text-wakeel-saffron bg-wakeel-saffron/10 px-3 py-1 rounded-lg border border-wakeel-saffron/30">
-                        <i class="fa-solid fa-microchip text-wakeel-cyber"></i>
-                        <span>DEEP CLAUSE SCANNER & STATUTORY PARSER</span>
-                    </div>
-                    <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-                        Instant Indian Statutory Legal Audit
-                    </h2>
-                    <p class="text-wakeel-muted text-sm sm:text-base leading-relaxed">
-                        Upload any agreement PDF or paste legal text. Our AI extracts clauses, compares against <span class="text-wakeel-saffron font-semibold">Section 27</span> (Restraint of Trade) and <span class="text-wakeel-green font-semibold">Section 23</span> (Unlawful Objects) of the Indian Contract Act 1872, and computes an instant <span class="text-wakeel-cyber font-semibold">Risk-o-Meter Gauge score</span>.
-                    </p>
-                </div>
-
-                <!-- PDF Sample Selectors -->
-                <div class="flex flex-col gap-2 min-w-[220px]">
-                    <span class="text-xs font-mono text-wakeel-muted uppercase font-bold tracking-wider">Test PDF Presets:</span>
-                    <button onclick="loadSamplePreset(0)" class="text-xs font-mono px-4 py-2.5 rounded-xl bg-wakeel-panel hover:bg-wakeel-saffron/10 hover:text-wakeel-saffron border border-wakeel-border transition text-left flex items-center justify-between group">
-                        <span class="font-bold">📄 Toxic Freelance Contract</span>
-                        <i class="fa-solid fa-arrow-right text-[10px] text-wakeel-cyber opacity-0 group-hover:opacity-100 transition"></i>
-                    </button>
-                    <button onclick="loadSamplePreset(1)" class="text-xs font-mono px-4 py-2.5 rounded-xl bg-wakeel-panel hover:bg-wakeel-cyber/10 hover:text-wakeel-cyber border border-wakeel-border transition text-left flex items-center justify-between group">
-                        <span class="font-bold">📄 Aggressive Startup NDA</span>
-                        <i class="fa-solid fa-arrow-right text-[10px] text-wakeel-cyber opacity-0 group-hover:opacity-100 transition"></i>
-                    </button>
-                    <button onclick="loadSamplePreset(2)" class="text-xs font-mono px-4 py-2.5 rounded-xl bg-wakeel-panel hover:bg-wakeel-green/10 hover:text-wakeel-green border border-wakeel-border transition text-left flex items-center justify-between group">
-                        <span class="font-bold">📄 Balanced Fair Agreement</span>
-                        <i class="fa-solid fa-arrow-right text-[10px] text-wakeel-cyber opacity-0 group-hover:opacity-100 transition"></i>
-                    </button>
-                </div>
-            </div>
+    <!-- ============ LEFT: INPUT ============ -->
+    <div class="lg:col-span-5">
+      <div class="glass rounded-3xl p-5 sm:p-6 flex flex-col gap-4 lg:sticky lg:top-24">
+        <div class="flex items-center justify-between">
+          <h3 id="inputTitle" class="text-sm font-bold text-white font-mono flex items-center gap-2"></h3>
+          <span id="charCount" class="text-[11px] font-mono font-bold" style="color:var(--accent)">0 chars</span>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <!-- LEFT COLUMN: PDF Dropzone & Ingest Box -->
-            <div class="lg:col-span-5 space-y-6">
-                <div class="rgb-card rounded-2xl p-6 flex flex-col h-full border border-wakeel-border">
-                    
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-base font-bold text-white flex items-center space-x-2.5 font-mono">
-                            <i class="fa-solid fa-file-pdf text-wakeel-saffron"></i>
-                            <span>1. INGEST CONTRACT PDF</span>
-                        </h3>
-                        <span id="charCount" class="text-xs font-mono text-wakeel-cyber font-bold">0 chars</span>
-                    </div>
+        <div id="sampleRow" class="flex flex-wrap items-center gap-2"></div>
 
-                    <!-- PDF File Dropzone -->
-                    <div class="border-2 border-dashed border-wakeel-border hover:border-wakeel-cyber rounded-xl p-6 text-center cursor-pointer transition mb-4 bg-wakeel-bg/80 group relative overflow-hidden" onclick="document.getElementById('fileInput').click()">
-                        <input type="file" id="fileInput" class="hidden" accept=".pdf,.txt,.doc,.docx" onchange="handleFileUpload(event)">
-                        
-                        <div class="flex flex-col items-center justify-center space-y-2">
-                            <div class="w-12 h-12 rounded-xl bg-wakeel-panel border border-wakeel-border flex items-center justify-center text-wakeel-cyber text-2xl group-hover:scale-110 transition">
-                                <i class="fa-solid fa-file-arrow-up"></i>
-                            </div>
-                            <p class="text-xs sm:text-sm font-semibold text-wakeel-light">
-                                Drop PDF file here or <span class="text-wakeel-cyber underline font-bold">Browse</span>
-                            </p>
-                            <p class="text-[11px] text-wakeel-muted font-mono">Parses native text or optical PDF text</p>
-                        </div>
-                        <div id="pdfBadge" class="mt-3 text-xs font-mono text-wakeel-saffron bg-wakeel-saffron/10 px-3 py-1 rounded-full border border-wakeel-saffron/30 inline-block hidden font-bold"></div>
-                    </div>
-
-                    <!-- Direct Text Input Area -->
-                    <div class="flex-1 flex flex-col min-h-[260px]">
-                        <label class="text-xs font-mono text-wakeel-muted mb-2 font-bold flex items-center justify-between">
-                            <span>PASTED CONTRACT TEXT / EXTRACTED CLAUSES:</span>
-                            <span id="docTypeLabel" class="text-wakeel-cyber">Ready</span>
-                        </label>
-                        <textarea id="contractInput" oninput="updateCharCount()" placeholder="Paste contract legalese here or select a PDF above..." class="w-full flex-1 bg-wakeel-bg border border-wakeel-border rounded-xl p-4 text-sm sm:text-base text-wakeel-light font-mono focus:outline-none focus:border-wakeel-cyber transition resize-none leading-relaxed"></textarea>
-                    </div>
-
-                    <div class="mt-5 pt-4 border-t border-wakeel-border">
-                        <button onclick="analyzeContractText()" id="analyzeBtn" class="w-full text-sm sm:text-base bg-gradient-to-r from-wakeel-saffron via-wakeel-gold to-wakeel-cyber text-black font-extrabold py-4 px-6 rounded-xl shadow-lg shadow-wakeel-saffron/20 hover:opacity-95 transition-all transform hover:-translate-y-0.5 flex items-center justify-center space-x-3 font-mono">
-                            <i class="fa-solid fa-bolt text-lg"></i>
-                            <span>RUN STATUTORY RISK ANALYSIS</span>
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="lg:col-span-7 space-y-6">
-                
-                <!-- Initial Empty State -->
-                <div id="resultsPlaceholder" class="rgb-card rounded-2xl p-10 text-center flex flex-col items-center justify-center min-h-[520px]">
-                    <div class="w-20 h-20 rounded-2xl bg-wakeel-panel border border-wakeel-border flex items-center justify-center text-wakeel-cyber text-3xl mb-5 shadow-inner">
-                        <i class="fa-solid fa-gauge-high animate-pulse"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-2 font-mono">Awaiting Contract Ingestion</h3>
-                    <p class="text-wakeel-muted text-sm max-w-sm mx-auto leading-relaxed">
-                        Load a PDF or select one of the presets on the left to compute a statutory analysis and render the <span class="text-wakeel-saffron font-bold">Risk-o-Meter</span>.
-                    </p>
-                </div>
-
-                <!-- Active Dashboard View -->
-                <div id="resultsContainer" class="hidden space-y-6">
-                    
-                    <!-- Dynamic RGB Risk-o-Meter Card -->
-                    <div class="rgb-card rounded-2xl p-6">
-                        <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
-                            
-                            <!-- Gauge Visual -->
-                            <div class="sm:col-span-5 flex flex-col items-center justify-center bg-wakeel-bg/90 p-5 rounded-xl border border-wakeel-border shadow-inner">
-                                <span class="text-[11px] font-mono text-wakeel-cyber uppercase font-bold tracking-widest mb-1 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-circle-dot text-wakeel-saffron"></i>
-                                    RISK-O-METER GAUGE
-                                </span>
-                                
-                                <div class="relative w-48 h-28 flex items-center justify-center mt-2">
-                                    <svg class="w-full h-full" viewBox="0 0 200 120">
-                                        <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#121824" stroke-width="20" stroke-linecap="round"/>
-                                        <path d="M 20 100 A 80 80 0 0 1 65 42" fill="none" stroke="#138808" stroke-width="20" opacity="0.4"/>
-                                        <path d="M 65 42 A 80 80 0 0 1 135 42" fill="none" stroke="#ffb703" stroke-width="20" opacity="0.4"/>
-                                        <path d="M 135 42 A 80 80 0 0 1 180 100" fill="none" stroke="#ff0055" stroke-width="20" opacity="0.4"/>
-                                        
-                                        <circle cx="100" cy="100" r="10" fill="#00f0ff" class="shadow-lg"/>
-                                        <circle cx="100" cy="100" r="4" fill="#05070a"/>
-                                        
-                                        <line id="gaugeNeedle" x1="100" y1="100" x2="25" y2="100" stroke="#00f0ff" stroke-width="4" stroke-linecap="round" class="gauge-needle"/>
-                                    </svg>
-                                    
-                                    <div class="absolute bottom-0 text-center font-mono">
-                                        <span id="riskScoreVal" class="text-3xl font-extrabold text-white">0</span>
-                                        <span class="text-xs text-wakeel-muted font-normal">/100</span>
-                                    </div>
-                                </div>
-
-                                <div id="riskLevelBadge" class="mt-3 text-xs font-mono px-4 py-1 rounded-full border font-bold uppercase tracking-wider">
-                                    CALCULATING...
-                                </div>
-                            </div>
-
-                            <!-- Executive Summary -->
-                            <div class="sm:col-span-7 space-y-3">
-                                <div class="flex items-center justify-between flex-wrap gap-2">
-                                    <div class="text-xs font-mono text-wakeel-saffron font-bold uppercase tracking-wider flex items-center space-x-2">
-                                        <i class="fa-solid fa-gavel"></i>
-                                        <span>STATUTORY AUDIT SUMMARY</span>
-                                    </div>
-                                    <button onclick="downloadPdfReport()" id="downloadPdfBtn" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-wakeel-cyber/10 text-wakeel-cyber border border-wakeel-cyber/40 hover:bg-wakeel-cyber hover:text-black transition flex items-center space-x-2">
-                                        <i class="fa-solid fa-file-pdf"></i>
-                                        <span>DOWNLOAD PDF REPORT</span>
-                                    </button>
-                                </div>
-                                <h3 id="verdictTitle" class="text-xl font-bold text-white">Analysis Complete</h3>
-                                <p id="verdictSubtitle" class="text-xs sm:text-sm text-wakeel-muted leading-relaxed font-sans">
-                                    Evaluating clauses against Indian Contract Act 1872 & statutory legal frameworks.
-                                </p>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- Freelancer Revision Action Items -->
-                    <div class="rgb-card rounded-2xl p-6 border-l-4 border-l-wakeel-cyber bg-wakeel-cyber/5 space-y-3">
-                        <div class="flex items-center space-x-2 text-wakeel-cyber font-mono font-bold text-sm uppercase tracking-wider">
-                            <i class="fa-solid fa-list-check"></i>
-                            <span>FREELANCER REVISION CHECKLIST (ASK YOUR CONTRACTOR)</span>
-                        </div>
-                        <ul id="checklistItems" class="space-y-2 text-xs sm:text-sm text-wakeel-light">
-                            <!-- Populated dynamically via JS -->
-                        </ul>
-                    </div>
-
-                    <!-- Color Coded Risk Sections -->
-                    <div class="space-y-6">
-                        
-                        <!-- High Risk (Red) -->
-                        <div class="space-y-3">
-                            <h4 class="text-xs font-mono font-bold text-rose-400 uppercase tracking-wider flex items-center space-x-2">
-                                <i class="fa-solid fa-circle-xmark text-rose-500"></i>
-                                <span>CRITICAL STATUTORY VIOLATIONS (HIGH RISK - RED)</span>
-                            </h4>
-                            <div id="redRiskList" class="space-y-3"></div>
-                        </div>
-
-                        <!-- Moderate Risk (Yellow) -->
-                        <div class="space-y-3">
-                            <h4 class="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-2">
-                                <i class="fa-solid fa-triangle-exclamation text-amber-500"></i>
-                                <span>MODERATE RISKS & HARSH TERMS (CAUTION - YELLOW)</span>
-                            </h4>
-                            <div id="yellowRiskList" class="space-y-3"></div>
-                        </div>
-
-                        <!-- Fair / Safe (Green) -->
-                        <div class="space-y-3">
-                            <h4 class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center space-x-2">
-                                <i class="fa-solid fa-circle-check text-emerald-500"></i>
-                                <span>FAIR & BALANCED CLAUSES (SAFE - GREEN)</span>
-                            </h4>
-                            <div id="greenRiskList" class="space-y-3"></div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
+        <div id="dropzone" class="border-2 border-dashed border-wk-border hover:border-[var(--accent)] rounded-2xl p-5 text-center cursor-pointer transition bg-black/20 group" onclick="document.getElementById('fileInput').click()">
+          <input type="file" id="fileInput" class="hidden" accept=".pdf,.txt,.md" onchange="handleFile(event)">
+          <div class="flex flex-col items-center gap-1.5">
+            <div class="w-11 h-11 rounded-xl bg-wk-panel border border-wk-border flex items-center justify-center text-xl group-hover:scale-110 transition" style="color:var(--accent)"><i class="fa-solid fa-file-arrow-up"></i></div>
+            <p class="text-sm font-semibold">Drop a PDF / TXT or <span class="underline" style="color:var(--accent)">browse</span></p>
+            <p id="dropHint" class="text-[11px] text-wk-muted font-mono">Text is read in your browser — nothing is uploaded.</p>
+          </div>
+          <div id="fileBadge" class="hidden mt-3 text-[11px] font-mono font-bold px-3 py-1 rounded-full border inline-block" style="color:var(--accent);border-color:rgba(var(--accent-rgb),.4);background:rgba(var(--accent-rgb),.1)"></div>
         </div>
 
-    </main>
+        <!-- Contract text -->
+        <div id="contractPanel" class="flex flex-col min-h-[240px]">
+          <label class="text-[11px] font-mono text-wk-muted mb-2 font-bold flex justify-between"><span>CONTRACT TEXT</span><span id="statusLabel" style="color:var(--accent)">Ready</span></label>
+          <textarea id="contractInput" oninput="updateCount()" placeholder="Paste clauses or the full agreement here…" class="w-full flex-1 min-h-[220px] bg-black/30 border border-wk-border rounded-2xl p-4 text-[13px] font-mono leading-relaxed focus:outline-none focus:border-[var(--accent)] transition resize-none"></textarea>
+        </div>
 
-    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
-        <button onclick="toggleChatbot()" class="bg-gradient-to-r from-wakeel-saffron via-wakeel-cyber to-wakeel-green hover:scale-105 transition-all text-black font-extrabold p-4 rounded-full shadow-2xl flex items-center space-x-3 text-sm font-mono">
-            <i class="fa-solid fa-headset text-lg"></i>
-            <span class="hidden sm:inline">LEGAL ASSISTANT CHAT</span>
+        <!-- Salary form -->
+        <div id="salaryPanel" class="hidden">
+          <div class="text-[11px] font-mono text-wk-muted mb-2 font-bold flex justify-between"><span>MONTHLY PAYSLIP VALUES (₹)</span><span id="salStatus" style="color:var(--accent)">Enter or upload</span></div>
+          <div id="salFields" class="grid grid-cols-2 gap-x-3 gap-y-2.5"></div>
+          <div class="mt-3 grid grid-cols-2 gap-3">
+            <div><label class="text-[10px] font-mono text-wk-muted block mb-1">City type</label>
+              <select id="sal_metro" class="num-in"><option value="1">Metro (Delhi, Mumbai, Chennai, Kolkata)</option><option value="0">Non-metro</option></select></div>
+            <div class="flex items-end"><p class="text-[10px] text-wk-muted leading-snug">Amounts per month. Tax is an estimate for planning, not a filing.</p></div>
+          </div>
+        </div>
+
+        <button id="analyzeBtn" onclick="runAnalysis()" class="btn-main w-full py-3.5 px-6 rounded-2xl flex items-center justify-center gap-3 font-mono text-sm">
+          <i class="fa-solid fa-bolt"></i><span id="analyzeLabel">RUN STATUTORY RISK ANALYSIS</span>
         </button>
-
-        <div id="chatWindow" class="hidden w-[90vw] sm:w-[380px] h-[460px] rgb-card rounded-2xl border border-wakeel-border shadow-2xl flex flex-col overflow-hidden transition-all duration-300 mt-3">
-            
-            <div class="bg-wakeel-panel p-4 border-b border-wakeel-border flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 rounded-lg bg-wakeel-cyber/20 border border-wakeel-cyber/40 flex items-center justify-center text-wakeel-cyber text-sm">
-                        <i class="fa-solid fa-robot"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-xs font-bold text-white font-mono">WAKEEL BOT</h4>
-                        <p class="text-[10px] text-wakeel-green font-mono">Indian Statutory Specialist</p>
-                    </div>
-                </div>
-                <button onclick="toggleChatbot()" class="text-wakeel-muted hover:text-white px-2 py-1 text-base">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <div id="chatLog" class="flex-1 p-4 space-y-3 overflow-y-auto text-xs sm:text-sm">
-                <div class="bg-wakeel-bg border border-wakeel-border rounded-xl p-3 text-wakeel-light space-y-1">
-                    <div class="text-[10px] text-wakeel-saffron font-bold font-mono">// WAKEEL ASSISTANT</div>
-                    <p class="leading-relaxed">
-                        Ask me any legal questions regarding Indian Contract Act, Section 27 (Non-compete), or IP ownership!
-                    </p>
-                </div>
-            </div>
-
-            <div class="p-3 bg-wakeel-panel border-t border-wakeel-border flex items-center space-x-2">
-                <input type="text" id="chatInput" onkeydown="if(event.key==='Enter') sendChatMessage()" placeholder="Ask a question..." class="flex-1 bg-wakeel-bg border border-wakeel-border rounded-xl px-3.5 py-2.5 text-xs text-wakeel-light focus:outline-none focus:border-wakeel-cyber font-sans">
-                <button onclick="sendChatMessage()" class="bg-wakeel-cyber hover:bg-wakeel-cyber/80 text-black p-2.5 rounded-xl transition font-bold text-xs">
-                    <i class="fa-solid fa-paper-plane"></i>
-                </button>
-            </div>
-
-        </div>
+        <p class="text-[10px] text-wk-muted text-center leading-snug">Rule-based screening for awareness. Not legal advice — have a lawyer review anything high-stakes.</p>
+      </div>
     </div>
 
-    <script>
-        const CONTRACT_PRESETS = [
-            {
-                name: "Toxic Freelance Software Engineering Contract.pdf",
-                type: "PREDATORY_FREELANCE",
-                text: `FREELANCE SOFTWARE DEVELOPER AGREEMENT
-1. NON-COMPETE & RESTRICTION: The Contractor agrees that for a period of 36 months following termination, they shall not provide software engineering services to any competitor globally.
-2. INTELLECTUAL PROPERTY: All code, side projects, and concepts created during the contract period belong solely to the Client without additional compensation.
-3. UNILATERAL PENALTY: In the event of minor breach, Contractor agrees to pay liquid damages of INR 10,00,000 immediately without proof of actual damages.
-4. TERMINATION: The Client may terminate this agreement at any time with 0 days notice and withhold earned fees.`,
-                analysis: {
-                    riskScore: 92,
-                    level: "CRITICAL RISK",
-                    badgeColor: "bg-rose-500/10 text-rose-400 border-rose-500/40",
-                    title: "Extreme Statutory Violations Found",
-                    subtitle: "This contract contains 3 illegal clauses void under Indian Law (Section 27 & Section 74).",
-                    checklist: [
-                        "Ask contractor to completely delete the 3-Year Post-Termination Non-Compete (Void under Section 27).",
-                        "Request capping any breach liability strictly to invoice fees paid, removing the INR 10 Lakhs arbitrary penalty.",
-                        "Insert a 14-day mutual written notice period for termination with guaranteed milestone payment."
-                    ],
-                    highRisk: [
-                        {
-                            title: "3-Year Post-Termination Non-Compete",
-                            citation: "Section 27, Indian Contract Act 1872",
-                            eli5: "Post-employment non-compete agreements are legally VOID in India. Clients cannot restrict you from working elsewhere.",
-                            action: "Ask client to strike this clause entirely."
-                        },
-                        {
-                            title: "INR 10,00,000 Liquidated Penalty",
-                            citation: "Section 74, Indian Contract Act 1872",
-                            eli5: "Exorbitant penalty sums without proof of actual damage cannot be enforced under Indian law.",
-                            action: "Replace with liability cap equal to total project fee."
-                        }
-                    ],
-                    mediumRisk: [
-                        {
-                            title: "Immediate Zero-Notice Termination & Retainage",
-                            citation: "Section 23, Indian Contract Act 1872",
-                            eli5: "Withholding earned compensation for completed work is opposed to public policy.",
-                            action: "Require 14 days written notice and payment for completed work."
-                        }
-                    ],
-                    goodClauses: [
-                        {
-                            title: "Scope Definition",
-                            citation: "Standard Commercial Terms",
-                            eli5: "Defines deliverables explicitly for software engineering."
-                        }
-                    ]
-                }
-            },
-            {
-                name: "Aggressive Startup Non-Disclosure Agreement.pdf",
-                type: "AGGRESSIVE_NDA",
-                text: `MUTUAL NON-DISCLOSURE AND CONFIDENTIALITY AGREEMENT
-1. CONFIDENTIALITY DURATION: Confidential obligations shall survive in perpetuity for all technical disclosures.
-2. MORAL RIGHTS WAIVER: Disclosing party retains exclusive assignment of all moral rights under Section 57 of Copyright Act 1957.
-3. EXCLUSIVE JURISDICTION: Disputes shall be governed exclusively by Delaware US courts despite both parties residing in India.`,
-                analysis: {
-                    riskScore: 68,
-                    level: "MODERATE RISK",
-                    badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/40",
-                    title: "Unbalanced Jurisdiction & Overbroad Terms",
-                    subtitle: "Contains unfair moral rights waivers and foreign jurisdiction traps.",
-                    checklist: [
-                        "Ask client to change jurisdiction from Delaware USA to Indian Courts (e.g. Bangalore/Mumbai).",
-                        "Cap confidentiality duration to 2-3 years maximum instead of infinite perpetuity."
-                    ],
-                    highRisk: [],
-                    mediumRisk: [
-                        {
-                            title: "Foreign USA Delaware Jurisdiction",
-                            citation: "Section 28, Indian Contract Act 1872",
-                            eli5: "Forcing Indian residents to litigate in US Delaware courts creates unreasonable financial burden.",
-                            action: "Change governing law to Courts of India."
-                        },
-                        {
-                            title: "Perpetual Confidentiality Term",
-                            citation: "Indian Standard Legal Precedent",
-                            eli5: "Indefinite secrecy obligations are overbroad for general business discussions.",
-                            action: "Set term limit to 2 years post-disclosure."
-                        }
-                    ],
-                    goodClauses: [
-                        {
-                            title: "Mutual Information Secrecy",
-                            citation: "Confidentiality Framework",
-                            eli5: "Protects both parties' proprietary information equally."
-                        }
-                    ]
-                }
-            },
-            {
-                name: "Standard Balanced Fair Consulting Agreement.pdf",
-                type: "FAIR_AGREEMENT",
-                text: `STANDARD PROFESSIONAL CONSULTING AGREEMENT
-1. SCOPE OF WORK: Consultant will deliver UI/UX design assets as detailed in SOW 1.
-2. INTELLECTUAL PROPERTY: IP transfers to Client upon receipt of full final payment.
-3. NOTICE PERIOD: Either party may terminate with 14 days written notice.
-4. GOVERNING LAW: Governed by the laws of India with sole arbitrator in Bangalore under Arbitration Act 1996.`,
-                analysis: {
-                    riskScore: 18,
-                    level: "LOW RISK (FAIR)",
-                    badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/40",
-                    title: "Fair & Statutorily Sound Agreement",
-                    subtitle: "This agreement adheres well to standard Indian contract legal standards.",
-                    checklist: [
-                        "No urgent revisions required. The agreement is balanced and founder-friendly.",
-                        "Confirm final SOW timeline and milestone payment dates before signing."
-                    ],
-                    highRisk: [],
-                    mediumRisk: [],
-                    goodClauses: [
-                        {
-                            title: "IP Transfer Contingent on Full Final Payment",
-                            citation: "Section 19, Copyright Act 1957",
-                            eli5: "You retain ownership of your work until the client pays 100% of agreed fees."
-                        },
-                        {
-                            title: "14-Day Mutual Notice & Indian Arbitration",
-                            citation: "Arbitration & Conciliation Act 1996",
-                            eli5: "Ensures a fast, fair dispute resolution process in India."
-                        }
-                    ]
-                }
-            }
-        ];
+    <!-- ============ RIGHT: RESULTS ============ -->
+    <div class="lg:col-span-7 space-y-5">
 
-        let currentLoadedPreset = null;
+      <div id="placeholder" class="glass rounded-3xl p-10 text-center flex flex-col items-center justify-center min-h-[520px]">
+        <div class="w-20 h-20 rounded-2xl bg-wk-panel border border-wk-border flex items-center justify-center text-3xl mb-5" style="color:var(--accent)"><i id="phIcon" class="fa-solid fa-gauge-high"></i></div>
+        <h3 id="phTitle" class="text-xl font-bold text-white mb-2 font-mono">Awaiting document</h3>
+        <p id="phText" class="text-wk-muted text-sm max-w-sm leading-relaxed"></p>
+      </div>
 
-        function updateCharCount() {
-            const val = document.getElementById('contractInput').value;
-            document.getElementById('charCount').innerText = `${val.length} chars`;
-        }
+      <div id="results" class="hidden space-y-5">
 
-        function loadSamplePreset(index) {
-            const preset = CONTRACT_PRESETS[index];
-            currentLoadedPreset = preset;
-            document.getElementById('contractInput').value = preset.text;
-            updateCharCount();
+        <div class="glass rounded-3xl p-6 fadein">
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
+            <div class="sm:col-span-5 flex flex-col items-center bg-black/30 p-5 rounded-2xl border border-wk-border">
+              <span class="text-[10px] font-mono text-wk-cyber font-bold tracking-widest flex items-center gap-1.5"><i class="fa-solid fa-circle-dot" style="color:var(--accent)"></i>RISK-O-METER</span>
+              <div class="relative w-52 h-[120px] mt-2">
+                <svg class="w-full h-full" viewBox="0 0 200 120">
+                  <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#121a29" stroke-width="20" stroke-linecap="round"/>
+                  <path d="M 20 100 A 80 80 0 0 1 60 30.7" fill="none" stroke="#138808" stroke-width="20" opacity=".55"/>
+                  <path d="M 60 30.7 A 80 80 0 0 1 140 30.7" fill="none" stroke="#ffb703" stroke-width="20" opacity=".55"/>
+                  <path d="M 140 30.7 A 80 80 0 0 1 180 100" fill="none" stroke="#ff0055" stroke-width="20" opacity=".55"/>
+                  <line id="needle" x1="100" y1="100" x2="30" y2="100" stroke="#00f0ff" stroke-width="4" stroke-linecap="round" class="gauge-needle"/>
+                  <circle cx="100" cy="100" r="10" fill="#00f0ff"/><circle cx="100" cy="100" r="4" fill="#05070d"/>
+                </svg>
+                <div class="absolute -bottom-1 w-full text-center font-mono"><span id="scoreVal" class="text-3xl font-extrabold text-white">0</span><span class="text-xs text-wk-muted">/100</span></div>
+              </div>
+              <div id="levelBadge" class="mt-4 text-[11px] font-mono px-4 py-1 rounded-full border font-bold uppercase tracking-wider">—</div>
+            </div>
+            <div class="sm:col-span-7 space-y-3">
+              <div class="flex items-center justify-between flex-wrap gap-2">
+                <div class="text-[11px] font-mono font-bold uppercase tracking-wider flex items-center gap-2" style="color:var(--accent)"><i class="fa-solid fa-gavel"></i><span id="docTag">AUDIT</span></div>
+                <button onclick="downloadReport()" class="px-3 py-1.5 rounded-lg text-[11px] font-mono font-bold bg-wk-cyber/10 text-wk-cyber border border-wk-cyber/40 hover:bg-wk-cyber hover:text-black transition flex items-center gap-2"><i class="fa-solid fa-file-pdf"></i>PDF REPORT</button>
+              </div>
+              <h3 id="verdictTitle" class="text-xl font-bold text-white leading-snug"></h3>
+              <p id="verdictSub" class="text-sm text-wk-muted leading-relaxed"></p>
+              <div class="flex gap-2 flex-wrap pt-1" id="countChips"></div>
+            </div>
+          </div>
+        </div>
 
-            const pdfBadge = document.getElementById('pdfBadge');
-            pdfBadge.innerText = `📄 PRESET LOADED: ${preset.name}`;
-            pdfBadge.classList.remove('hidden');
+        <div id="extraPanel" class="hidden"></div>
 
-            document.getElementById('docTypeLabel').innerText = "Preset Active";
-            renderAnalysis(preset.analysis);
-        }
+        <div class="glass rounded-3xl p-6 border-l-4 space-y-3 fadein" style="border-left-color:var(--accent)">
+          <div id="checkTitle" class="flex items-center gap-2 font-mono font-bold text-[13px] uppercase tracking-wider" style="color:var(--accent)"><i class="fa-solid fa-list-check"></i><span></span></div>
+          <ol id="checklist" class="space-y-2 text-sm text-slate-200"></ol>
+        </div>
 
-        function clearAllData() {
-            document.getElementById('contractInput').value = '';
-            document.getElementById('fileInput').value = '';
-            updateCharCount();
-            
-            const pdfBadge = document.getElementById('pdfBadge');
-            pdfBadge.innerText = '';
-            pdfBadge.classList.add('hidden');
-            
-            document.getElementById('docTypeLabel').innerText = "Ready";
-            currentLoadedPreset = null;
+        <div class="space-y-6">
+          <div class="space-y-3"><h4 class="text-[11px] font-mono font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-circle-xmark"></i>CRITICAL / HIGH RISK</h4><div id="redList" class="space-y-3"></div></div>
+          <div class="space-y-3"><h4 class="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i>CAUTION — NEGOTIATE THESE</h4><div id="yellowList" class="space-y-3"></div></div>
+          <div class="space-y-3"><h4 class="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-circle-check"></i>FAIR & PROTECTIVE</h4><div id="greenList" class="space-y-3"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
 
-            document.getElementById('resultsContainer').classList.add('hidden');
-            document.getElementById('resultsPlaceholder').classList.remove('hidden');
-            setGaugeValue(0);
-        }
+<footer class="max-w-7xl mx-auto w-full px-4 sm:px-6 pb-24 text-[11px] text-wk-muted font-mono text-center leading-relaxed">
+  Wakeel AI is an educational screening tool, not a law firm. Statutory references are simplified; rules differ by state and change over time. Confirm with a qualified advocate / CA before signing or filing.
+</footer>
 
-        async function handleFileUpload(event) {
-            const file = event.target.files ? event.target.files[0] : null;
-            if (!file) return;
+<!-- ============ CHAT ============ -->
+<div class="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
+  <div id="chatWindow" class="chat-shell w-[92vw] sm:w-[400px] h-[min(600px,78vh)] rounded-3xl flex flex-col overflow-hidden">
+    <div class="chat-head px-4 py-3.5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="relative w-10 h-10 rounded-xl flex items-center justify-center text-black fab"><i class="fa-solid fa-scale-balanced"></i>
+          <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-wk-green border-2 border-[#0b1019]"></span></div>
+        <div><h4 class="text-sm font-extrabold text-white leading-none">Wakeel Assistant</h4><p id="chatSub" class="text-[10px] text-slate-300/80 font-mono mt-1">Freelance · Jobs · Business law</p></div>
+      </div>
+      <div class="flex items-center gap-1">
+        <button title="Clear chat" onclick="resetChat()" class="w-8 h-8 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition"><i class="fa-solid fa-broom text-xs"></i></button>
+        <button title="Close" onclick="toggleChat()" class="w-8 h-8 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+    <div id="chatLog" class="flex-1 overflow-y-auto px-4 py-4 space-y-3 scroll-smooth"></div>
+    <div id="chatChips" class="px-3 pt-2 pb-1 flex gap-2 overflow-x-auto hide-sb"></div>
+    <div class="p-3 flex items-center gap-2">
+      <input id="chatInput" type="text" autocomplete="off" onkeydown="if(event.key==='Enter') sendChat()" placeholder="Ask about notice periods, TDS, IP, NDAs…" class="flex-1 bg-black/40 border border-wk-border rounded-2xl px-4 py-3 text-[13px] focus:outline-none focus:border-[var(--accent)] transition">
+      <button onclick="sendChat()" class="w-11 h-11 rounded-2xl btn-main flex items-center justify-center"><i class="fa-solid fa-paper-plane text-sm"></i></button>
+    </div>
+  </div>
+  <button onclick="toggleChat()" class="fab rounded-full px-5 py-3.5 font-extrabold text-sm font-mono flex items-center gap-2.5 hover:scale-105 transition-transform">
+    <i class="fa-solid fa-comments text-base"></i><span class="hidden sm:inline">ASK WAKEEL</span>
+  </button>
+</div>
 
-            const pdfBadge = document.getElementById('pdfBadge');
-            pdfBadge.innerText = `📄 ATTACHED: ${file.name}`;
-            pdfBadge.classList.remove('hidden');
-            document.getElementById('docTypeLabel').innerText = "Parsing File...";
+<script>
+/* =====================================================================
+   DATA: stacks & document types
+   ===================================================================== */
+const STACKS = {
+  freelancer: { label:'Freelancer', icon:'fa-laptop-code', color:'#FF9933', rgb:'255,153,51', blurb:'Client contracts, NDAs and IP assignments for gig workers, agencies and consultants.', docs:['freelance','nda','ipwork'], who:'ASK YOUR CLIENT' },
+  job:        { label:'Job & Career', icon:'fa-user-tie', color:'#00f0ff', rgb:'0,240,255', blurb:'Offer letters, internship terms and a payslip health-check for employees and students.', docs:['offer','internship','salary'], who:'ASK YOUR EMPLOYER / HR' },
+  business:   { label:'Business & Firms', icon:'fa-building', color:'#2ecc40', rgb:'46,204,64', blurb:'Vendor agreements, co-founder pacts, commercial leases and NDAs for startups and SMEs.', docs:['vendor','partnership','lease','nda'], who:'ASK YOUR COUNTERPARTY' }
+};
 
-            if (file.type === "application/pdf" || file.name.toLowerCase().endsWith('.pdf')) {
-                try {
-                    const arrayBuffer = await file.arrayBuffer();
-                    if (window.pdfjsLib) {
-                        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-                        const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-                        const pdf = await loadingTask.promise;
-                        
-                        let extractedText = "";
-                        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                            const page = await pdf.getPage(pageNum);
-                            const textContent = await page.getTextContent();
-                            const pageItems = textContent.items.map(item => item.str).join(' ');
-                            extractedText += `--- Page ${pageNum} ---\n` + pageItems + "\n\n";
-                        }
+const DOCS = {
+  freelance:  { label:'Freelance Contract', icon:'fa-file-signature', ph:'Paste a freelance / client service agreement. Wakeel checks non-competes, penalties, IP grabs, payment terms, termination and jurisdiction.' },
+  nda:        { label:'NDA', icon:'fa-user-shield', ph:'Paste an NDA / confidentiality agreement to check duration, one-sided duties, carve-outs and jurisdiction.' },
+  ipwork:     { label:'IP / Work-for-Hire', icon:'fa-copyright', ph:'Paste an IP assignment or work-for-hire clause to test it against the Copyright Act 1957.' },
+  offer:      { label:'Offer Letter / Employment', icon:'fa-envelope-open-text', ph:'Paste your offer letter or employment contract: bonds, notice, probation, deductions, benefits and more.' },
+  internship: { label:'Internship Agreement', icon:'fa-graduation-cap', ph:'Paste an internship letter to spot unpaid-work traps, deposits, long hours and non-competes.' },
+  salary:     { label:'Salary Slip Analyser', icon:'fa-money-check-dollar', ph:'Enter your monthly payslip values or upload the slip PDF to audit PF, PT, ESI, TDS and structure.' },
+  vendor:     { label:'Vendor / Service Agreement', icon:'fa-handshake', ph:'Paste a vendor or B2B service agreement: renewals, exclusivity, payment cycle, liability and data protection.' },
+  partnership:{ label:'Co-founder / Partnership', icon:'fa-people-group', ph:'Paste a co-founder, partnership or shareholder agreement: vesting, exit, control and liability.' },
+  lease:      { label:'Commercial Lease', icon:'fa-store', ph:'Paste a lease / rent agreement: deposit, escalation, lock-in, eviction and registration.' }
+};
 
-                        if (extractedText.replace(/--- Page \d+ ---/g, '').trim().length > 10) {
-                            document.getElementById('contractInput').value = extractedText.trim();
-                            document.getElementById('docTypeLabel').innerText = "PDF Parsed Successfully";
-                        } else {
-                            document.getElementById('contractInput').value = `[Uploaded PDF: ${file.name}]\nNote: This PDF appears to be a scanned image. Copy-paste text directly or select a preset sample.`;
-                            document.getElementById('docTypeLabel').innerText = "Scanned PDF";
-                        }
-                    } else {
-                        document.getElementById('contractInput').value = `[Uploaded File: ${file.name}]\nPDF parser library not initialized. Copy and paste contract text directly.`;
-                        document.getElementById('docTypeLabel').innerText = "Parser Unavailable";
-                    }
-                } catch (err) {
-                    console.error("PDF Parsing Error:", err);
-                    document.getElementById('contractInput').value = `[File attached: ${file.name}]\nError parsing PDF. Please copy and paste text directly into this text area.`;
-                    document.getElementById('docTypeLabel').innerText = "Parse Error";
-                }
-            } else {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('contractInput').value = e.target.result;
-                    updateCharCount();
-                    document.getElementById('docTypeLabel').innerText = "Text File Ingested";
-                };
-                reader.readAsText(file);
-            }
+const SAMPLES = {
+  freelance: [
+    { name:'Predatory freelance contract', text:`FREELANCE SOFTWARE DEVELOPER AGREEMENT
+1. SCOPE: Contractor will build the Client's mobile app as described in the Statement of Work.
+2. NON-COMPETE: For 36 months after termination, the Contractor shall not provide software engineering services to any competitor of the Client anywhere in the world.
+3. INTELLECTUAL PROPERTY: All code, side projects, and concepts created during the contract period belong solely to the Client without additional compensation.
+4. PENALTY: On any minor breach the Contractor shall pay liquidated damages of INR 10,00,000 without proof of actual loss.
+5. TERMINATION: The Client may terminate at any time with 0 days notice and may withhold earned fees.
+6. JURISDICTION: Disputes are subject exclusively to the courts of Delaware, USA.` },
+    { name:'Fair freelance contract', text:`FREELANCE SERVICES AGREEMENT
+1. SCOPE OF WORK: Freelancer will deliver UI/UX design assets as detailed in Statement of Work 1.
+2. PAYMENT: Invoices are payable within 15 days of receipt. Late payments attract interest at 1.5% per month.
+3. INTELLECTUAL PROPERTY: Ownership of the final deliverables transfers to the Client upon receipt of full and final payment. Freelancer retains rights to pre-existing tools and may show the work in a portfolio.
+4. TERMINATION: Either party may terminate with 14 days written notice; fees for completed work remain payable.
+5. LIABILITY: Total liability of either party is limited to the fees paid under this Agreement.
+6. GOVERNING LAW: Governed by the laws of India. Disputes shall be resolved by a sole arbitrator in Bangalore under the Arbitration and Conciliation Act 1996.
+7. CONFIDENTIALITY: Each party shall keep the other's confidential information secret for 3 years.` }
+  ],
+  nda: [
+    { name:'Aggressive NDA', text:`NON-DISCLOSURE AGREEMENT
+1. The Receiving Party shall keep all Confidential Information secret in perpetuity, including all technical disclosures.
+2. The Receiving Party shall not work for any competitor of the Disclosing Party for 5 years after this Agreement ends.
+3. The Receiving Party shall pay a penalty of INR 25,00,000 for any disclosure, without proof of actual loss.
+4. Disputes shall be governed exclusively by the courts of Delaware, USA, although both parties are based in India.` }
+  ],
+  ipwork: [
+    { name:'Overbroad IP assignment', text:`IP ASSIGNMENT & WORK-FOR-HIRE AGREEMENT
+1. The Contractor assigns to the Company all work product, ideas and inventions, including side projects and personal projects created in the Contractor's own time, which shall belong exclusively to the Company without any additional compensation.
+2. The Contractor irrevocably waives all moral rights in the work.
+3. This assignment is perpetual and worldwide.
+4. The Contractor shall not work for any competitor for 2 years after termination.` }
+  ],
+  offer: [
+    { name:'Trap-heavy offer letter', text:`OFFER OF EMPLOYMENT
+Designation: Software Engineer. CTC: INR 12,00,000 per annum, of which 30% is variable pay payable at the sole discretion of the Company.
+1. PROBATION: During the 6-month probation the Company may terminate your services at any time without notice.
+2. NOTICE PERIOD: After confirmation you must serve a notice period of 3 months, failing which you shall pay one year's salary.
+3. BOND: You agree to a minimum service of 3 years; on leaving earlier you shall reimburse INR 5,00,000 towards training and joining costs.
+4. ORIGINAL DOCUMENTS: The Company will retain your original degree certificates until your last working day.
+5. NON-COMPETE: For 24 months after leaving, you shall not join any competitor.
+6. DEDUCTIONS: The Company may deduct any amount from your salary towards losses or damages caused by you.` },
+    { name:'Fair offer letter', text:`OFFER OF EMPLOYMENT
+Designation: Product Designer. Fixed CTC INR 14,40,000 per annum. Basic salary is 50% of CTC; variable pay of 10% is paid per a published, transparent plan.
+1. PROBATION: 3 months, with 15 days notice by either party.
+2. NOTICE PERIOD: 60 days written notice by either party after confirmation; the Company will not withhold dues for completed work.
+3. BENEFITS: Provident Fund, gratuity as per the Payment of Gratuity Act, medical insurance, and 24 days paid leave per year.
+4. IP: Work created in the course of employment belongs to the Company; your personal projects made on your own time remain yours.
+5. GOVERNING LAW: Laws of India; courts at Pune.` }
+  ],
+  internship: [
+    { name:'Exploitative internship', text:`INTERNSHIP LETTER
+You are offered a 6-month internship, working 10 hours per day, 6 days a week. This is an unpaid internship with no stipend.
+1. A refundable security deposit of INR 15,000 must be paid before joining.
+2. You shall not work for any competitor for 2 years after the internship.
+3. All work, ideas and code you create belong solely to the Company.
+4. The Company may end the internship immediately without notice.` }
+  ],
+  vendor: [
+    { name:'One-sided vendor deal', text:`VENDOR SERVICES AGREEMENT
+1. The Vendor shall be the exclusive supplier of the Company and the Company shall not procure similar services from any other party.
+2. Payment shall be made within 120 days of receipt of invoice.
+3. This Agreement renews automatically for successive 3-year terms.
+4. The Company may revise the fees at its sole discretion at any time.
+5. The Vendor accepts unlimited liability and shall indemnify the Company against any and all losses.
+6. Disputes are subject to the courts of Singapore.` },
+    { name:'Balanced vendor deal', text:`VENDOR SERVICES AGREEMENT
+1. SCOPE: The Vendor will provide the services listed in Schedule A.
+2. PAYMENT: Invoices are payable within 30 days of receipt; delayed payments attract interest.
+3. TERM: 12 months, renewable only by written agreement.
+4. LIABILITY: Each party's liability is limited to the fees paid in the preceding 12 months.
+5. DATA: Personal data is processed per the Digital Personal Data Protection Act 2023 and the Vendor shall keep Confidential Information secret.
+6. FORCE MAJEURE: Neither party is liable for delays caused by events beyond reasonable control.
+7. TERMINATION: Either party may terminate with 30 days written notice.
+8. LAW: Laws of India; arbitration under the Arbitration and Conciliation Act 1996, seat Mumbai. The Agreement shall be duly stamped as per the applicable Stamp Act.` }
+  ],
+  partnership: [
+    { name:'Lopsided co-founder deal', text:`CO-FOUNDER AGREEMENT
+1. Equity: Founder A holds 90% and Founder B holds 10%; all shares are fully vested from day one.
+2. The majority founder may remove or dilute any co-founder at the sole discretion of the majority founder.
+3. Each partner has unlimited liability and is jointly and severally liable for the firm's debts.
+4. A departing founder shall not start or join any competing business for 3 years.` }
+  ],
+  lease: [
+    { name:'Tenant-hostile lease', text:`COMMERCIAL LEASE AGREEMENT
+1. The Tenant shall pay a security deposit equal to 10 months rent.
+2. Rent shall escalate by 20% every year.
+3. The lock-in period is 5 years, and the Tenant shall pay rent for the balance period on early exit.
+4. The Landlord may evict the Tenant immediately without notice and may enter the premises at any time without prior notice.` }
+  ]
+};
 
-            updateCharCount();
-        }
+/* =====================================================================
+   RULE ENGINE (contracts)
+   ===================================================================== */
+const numRule = (re, test) => t => { const m = re.exec(t); return (m && test(m)) ? { index:m.index, len:m[0].length } : null; };
+const ALLDOCS = ['freelance','nda','ipwork','offer','internship','vendor','partnership','lease'];
 
-        function setGaugeValue(score) {
-            const needle = document.getElementById('gaugeNeedle');
-            if (!needle) return;
-            const angle = -90 + (score / 100) * 180;
-            needle.style.transform = `rotate(${angle}deg)`;
-        }
+const RULES = [
+  // ---- Restraint of trade
+  { id:'noncompete', sev:'high', docs:['freelance','nda','ipwork','offer','internship','vendor','partnership'],
+    re:/non[\s-]?compete|restraint of trade|shall not (?:provide|render|offer|engage|work|join|start)[^.]{0,120}(?:competitor|competing)|not (?:to )?(?:work|join)[^.]{0,60}competitor/i,
+    title:'Post-termination non-compete', cite:'Section 27, Indian Contract Act 1872',
+    why:'Agreements that stop you from practising a profession or trade after the relationship ends are void in India. Restrictions during the contract are usually fine; after it, they are not enforceable.',
+    action:'Ask for the clause to be deleted or limited to the contract term and genuine confidentiality duties.',
+    fix:'"During the term of this Agreement, the Contractor shall not work on a directly competing product for the Client. After termination, nothing in this Agreement restricts the Contractor from carrying on any profession, trade or business."' },
+  { id:'penalty_noproof', sev:'high', docs:ALLDOCS,
+    re:/(?:liquid(?:ated)? damages|penalt(?:y|ies)|damages)[^.]{0,160}without (?:any )?proof|without proof of (?:actual )?(?:loss|damage)/i,
+    title:'Fixed penalty without proof of loss', cite:'Section 74, Indian Contract Act 1872',
+    why:'Indian courts award only reasonable compensation for a proven breach, even where a larger sum is named. A huge penalty that ignores actual loss is not enforceable as written.',
+    action:'Replace with a liability cap tied to fees paid and compensation for proven loss.',
+    fix:'"Each party\'s total liability under this Agreement shall not exceed the fees paid or payable in the preceding 12 months, and shall be limited to actual, proven loss."' },
+  { id:'penalty', sev:'med', docs:ALLDOCS, skipIf:'penalty_noproof', re:/liquid(?:ated)? damages|penalt(?:y|ies)|penal (?:charge|interest)/i,
+    title:'Penalty / liquidated damages clause', cite:'Section 74, Indian Contract Act 1872',
+    why:'Pre-agreed damages are only enforceable as a genuine pre-estimate. Courts cut down anything punitive.', action:'Ask for a genuine pre-estimate or a cap equal to fees paid.' },
+  { id:'withhold', sev:'high', docs:['freelance','offer','internship','vendor'],
+    re:/withhold[^.]{0,60}(?:fees?|salary|payment|wages|stipend|amount)|forfeit[^.]{0,40}(?:fees?|salary|payment|wages|deposit)/i,
+    title:'Withholding earned pay', cite:'Section 23 (public policy) & Code on Wages 2019 on deductions',
+    why:'Holding back money already earned for completed work is opposed to public policy, and wage deductions are tightly regulated for employees.',
+    action:'Make payment for completed work unconditional, with disputes handled separately.',
+    fix:'"Fees for work completed up to the date of termination remain payable within 15 days of the final invoice."' },
+  { id:'terminate0', sev:'med', docs:['freelance','vendor','offer','internship','ipwork'],
+    re:/(?:\b0\b|zero|no)\s*days'?\s*(?:of\s*)?notice|(?:terminate|end|cancel|discontinue)[^.]{0,80}(?:at any time|without (?:cause|notice|reason|any notice))|immediate(?:ly)? terminat/i,
+    title:'Instant one-sided termination', cite:'Section 23 / fairness of consideration',
+    why:'Letting one side walk away instantly while the other is bound makes the deal lopsided and exposes you to unpaid work.',
+    action:'Ask for mutual written notice (14–30 days) and payment for work done.',
+    fix:'"Either party may terminate this Agreement by giving 14 days\' written notice. Fees for completed work remain payable."' },
+  { id:'foreign', sev:'med', docs:ALLDOCS.concat(['salary']).filter(d=>d!=='salary'),
+    re:/delaware|new york|california|singapore|london|dubai|(?:courts? of|jurisdiction of)[^.]{0,30}(?:usa|u\.s\.|united states|united kingdom|\buk\b)|foreign (?:court|law|jurisdiction)/i,
+    title:'Foreign courts / foreign law', cite:'Section 28, Indian Contract Act 1872 & forum-selection principles',
+    why:'Not automatically void, but suing overseas is prohibitively costly for an Indian party and effectively removes your remedy.',
+    action:'Ask for Indian law and a seat in an Indian city, ideally with arbitration.',
+    fix:'"This Agreement is governed by the laws of India. Disputes shall be referred to a sole arbitrator seated at [City] under the Arbitration and Conciliation Act 1996."' },
+  { id:'perpetual', sev:'med', docs:['nda','vendor','offer','partnership','freelance','ipwork'],
+    re:/(?:confidential\w*|secrecy|non-disclosure)[^.]{0,120}(?:in perpetuity|perpetual|indefinite|forever)|(?:in perpetuity|perpetual(?:ly)?)[^.]{0,60}confidential/i,
+    title:'Never-ending confidentiality', cite:'Reasonableness under Sections 23 & 27',
+    why:'Open-ended secrecy obligations are overbroad for ordinary business information and can quietly become a non-compete.',
+    action:'Cap at 2–3 years (longer only for true trade secrets).', fix:'"Confidentiality obligations survive for 3 years after termination; trade secrets remain protected for as long as they stay secret."' },
+  { id:'ip_overbroad', sev:'high', docs:['freelance','ipwork','offer','internship'],
+    re:/(?:side projects?|personal projects?|outside (?:of )?(?:working|office) hours|personal time|own time|prior (?:work|inventions?))[^.]{0,120}(?:belong|vest|owned|assign)|all (?:code|work|ideas|concepts|inventions|ip)[^.]{0,120}(?:belong|vest|owned|assigned)[^.]{0,60}(?:solely|exclusively)[^.]{0,80}(?:without|no)[^.]{0,30}compensation/i,
+    title:'IP grab over your side work', cite:'Sections 17–19, Copyright Act 1957',
+    why:'First ownership sits with the author unless validly assigned in writing with consideration. Claiming your personal projects or unrelated ideas is overreach and weakly enforceable.',
+    action:'Limit assignment to deliverables created for this project, effective on full payment; carve out pre-existing and personal work.',
+    fix:'"Ownership of the final deliverables transfers to the Client on receipt of full payment. The Contractor retains all pre-existing materials, tools and work created independently of this engagement."' },
+  { id:'ip_fullpay', sev:'good', docs:['freelance','ipwork'], re:/(?:upon|after|on)\s*(?:receipt of\s*)?(?:full|final|complete)\s*(?:and final\s*)?payment/i,
+    title:'IP transfers only after full payment', cite:'Section 19, Copyright Act 1957', why:'You keep ownership until you are fully paid — strong protection.' },
+  { id:'moral', sev:'med', docs:['ipwork','freelance'], re:/waive[^.]{0,40}moral rights|moral rights[^.]{0,40}waiv/i,
+    title:'Blanket moral-rights waiver', cite:'Section 57, Copyright Act 1957',
+    why:'Authors keep rights of attribution and integrity. Whether a blanket waiver holds up is doubtful in India.', action:'Ask for attribution rights or a narrower, specific waiver.' },
+  { id:'ipterm', sev:'med', docs:['ipwork'], missing:true, re:/(?:term|period|duration)[^.]{0,40}years?|perpetual|territory|worldwide|in india/i,
+    title:'Assignment term & territory not stated', cite:'Section 19(5)–(6), Copyright Act 1957',
+    why:'If duration or territory is missing, the law defaults to 5 years and India — which may not match what either side intends.', action:'State the duration and territory expressly.',
+    okTitle:'Assignment term / territory specified', okWhy:'The agreement states how long and where the rights apply.' },
+  { id:'oneSided', sev:'med', docs:['nda'], fn:t => (/receiving party|recipient|disclosing party/i.test(t) && !/mutual|each party|both parties|either party/i.test(t)) ? { index:t.search(/receiving party|recipient/i), len:15 } : null,
+    title:'One-sided NDA', cite:'Fairness / consideration (Section 23)', why:'Only one side carries confidentiality duties while both may be sharing sensitive information.', action:'Ask for mutual obligations.' },
+  { id:'carveouts', sev:'med', docs:['nda'], missing:true, re:/public domain|publicly available|already known|independently developed|required by law/i,
+    title:'No standard carve-outs', cite:'Market practice', why:'Without exclusions for public or independently developed information, you can be liable for sharing things anyone already knows.',
+    action:'Add carve-outs: public domain, already known, independently developed, legally compelled.', okTitle:'Standard confidentiality carve-outs present', okWhy:'Exclusions for public / independent information are included.' },
 
-        function renderAnalysis(analysis) {
-            document.getElementById('resultsPlaceholder').classList.add('hidden');
-            document.getElementById('resultsContainer').classList.remove('hidden');
+  // ---- Payment & scope
+  { id:'payment', sev:'med', docs:['freelance','vendor'], missing:true, re:/payment|invoice|remuneration|consideration|(?:payable|pay)\s*(?:INR|Rs|₹)/i,
+    title:'No payment terms', cite:'Section 2(d) consideration; MSMED Act 2006', why:'Without amounts, milestones or due dates you cannot easily claim what you are owed.',
+    action:'Add fee, milestones, invoice date and due date.', okTitle:'Payment terms defined', okWhy:'Fees and payment timing are addressed.' },
+  { id:'latefee', sev:'med', docs:['freelance','vendor'], missing:true, re:/interest|late (?:fee|payment|charge)|delayed payment/i,
+    title:'No late-payment protection', cite:'Sections 15–16, MSMED Act 2006', why:'Micro/small suppliers must be paid within 45 days at most, with compound interest at 3× the RBI bank rate if delayed. Your contract should say so.',
+    action:'Add interest on late payments and a payment deadline (≤ 45 days if you are MSME-registered).', fix:'"Invoices are due within 15 days. Delayed payments attract interest at 1.5% per month."',
+    okTitle:'Late-payment interest included', okWhy:'Delays carry a cost for the payer — good protection.' },
+  { id:'scope', sev:'med', docs:['freelance','vendor','ipwork'], missing:true, re:/scope|deliverable|statement of work|\bSOW\b|services listed|schedule a/i,
+    title:'Scope of work undefined', cite:'Section 29, Contract Act (certainty)', why:'Vague scope invites endless revisions without extra pay.', action:'Attach a Statement of Work with deliverables and a revision limit.',
+    okTitle:'Scope of work defined', okWhy:'Deliverables are referenced explicitly.' },
+  { id:'payTerms', sev:'med', docs:['freelance','vendor'], fn:numRule(/(?:payment|invoice|pay)[^.]{0,80}?(\d+)\s*days/i, m => +m[1] > 45),
+    title:'Payment cycle over 45 days', cite:'Section 15, MSMED Act 2006', why:'For micro and small enterprise suppliers, payment beyond 45 days is not allowed even if agreed.', action:'Negotiate 15–30 days (45 days max for MSMEs).' },
 
-            document.getElementById('riskScoreVal').innerText = analysis.riskScore;
-            setGaugeValue(analysis.riskScore);
+  // ---- Common structure
+  { id:'terminat', sev:'med', docs:ALLDOCS, missing:true, re:/terminat/i, title:'No termination clause', cite:'Section 39, Indian Contract Act 1872',
+    why:'Without exit rules, disputes about leaving the deal get messy.', action:'Add termination rights, notice period and what happens to dues.' },
+  { id:'mutualnotice', sev:'good', docs:['freelance','vendor','offer','internship','lease','ipwork'], re:/either party[^.]{0,80}(?:terminate|notice)|(?<!\d)[1-9]\d*\s*days'?\s*(?:written\s*)?(?:prior\s*)?notice/i,
+    title:'Mutual written notice period', cite:'Fair-dealing principle', why:'Both sides get a defined notice window — predictable and balanced.' },
+  { id:'govlaw', sev:'med', docs:ALLDOCS, missing:true, re:/laws? of india|indian law|governed by (?:the )?(?:laws of )?india|courts? (?:at|of|in) [a-z]+/i,
+    title:'No governing law stated', cite:'Section 28 / CPC jurisdiction', why:'You may not know where or under which law a dispute will be decided.', action:'State Indian law and a city for courts or arbitration.',
+    okTitle:'Governed by Indian law / Indian courts', okWhy:'Indian law and local forum make disputes affordable.' },
+  { id:'disputes', sev:'med', docs:['freelance','vendor','partnership'], missing:true, re:/arbitrat|mediation/i, title:'No dispute-resolution mechanism', cite:'Arbitration & Conciliation Act 1996; Commercial Courts Act s.12A',
+    why:'Litigation in Indian courts is slow. Arbitration or mediation clauses give a faster route.', action:'Add mediation first, then sole-arbitrator arbitration seated in India.',
+    okTitle:'Arbitration / mediation clause present', okWhy:'A faster private dispute route is defined.' },
+  { id:'liabcap', sev:'good', docs:['freelance','vendor','ipwork'], re:/liability[^.]{0,80}(?:capped|limited to|shall not exceed)|(?:limited to|not exceed)[^.]{0,40}fees/i,
+    title:'Liability is capped', cite:'Risk-allocation best practice', why:'Your maximum exposure is limited to a known sum.' },
+  { id:'unlimited', sev:'med', docs:['vendor','freelance','partnership'], re:/unlimited liability|liability[^.]{0,40}(?:unlimited|without limit)|indemnif[^.]{0,80}(?:any and all|all)\s*(?:losses|claims|damages|liabilit)/i,
+    title:'Unlimited liability / blanket indemnity', cite:'Section 73–74, Contract Act; Partnership Act 1932 s.25 (partners)', why:'One bad incident could cost far more than the contract is worth.', action:'Cap liability at fees paid and exclude indirect losses.' },
 
-            const badge = document.getElementById('riskLevelBadge');
-            badge.innerText = analysis.level;
-            badge.className = `mt-3 text-xs font-mono px-4 py-1 rounded-full border font-bold uppercase tracking-wider ${analysis.badgeColor}`;
+  // ---- Employment
+  { id:'originals', sev:'high', docs:['offer','internship'], re:/(?:retain|hold|keep|submit|deposit|withhold)[^.]{0,60}original\s*(?:certificates?|documents?|degrees?|mark\s?sheets?|passports?)|original\s*(?:certificates?|documents?|degrees?|mark\s?sheets?)[^.]{0,60}(?:retain|held|kept|withheld|deposit)/i,
+    title:'Employer keeps your original certificates', cite:'Public policy (Section 23) & state labour advisories', why:'Holding original degrees or ID coerces you to stay. Many labour departments treat it as unfair practice; a certified copy is enough for verification.',
+    action:'Offer photocopies for verification; refuse to deposit originals.' },
+  { id:'bond', sev:'med', docs:['offer','internship'], re:/(?:bond|minimum (?:service|tenure|commitment)|service (?:bond|agreement))[^.]{0,160}\d+\s*(?:months?|years?)|recover[^.]{0,40}(?:training|joining|relocation|onboarding)/i,
+    title:'Service bond / training-cost recovery', cite:'Section 74, Contract Act 1872', why:'Reasonable bonds tied to real training costs have been upheld, but punitive amounts are cut down to genuine loss.',
+    action:'Ask for a short tenure, pro-rata reduction each month and a cap at actual proven cost.' },
+  { id:'noticeLong', sev:'med', docs:['offer'], fn:numRule(/(?:(\d+)\s*(?:\(\w+\)\s*)?months?'?\s*(?:of\s*)?(?:written\s*)?notice|notice period (?:of|is|shall be)\s*(\d+)\s*months?)/i, m => +(m[1]||m[2]) >= 3),
+    title:'Notice period of 3+ months', cite:'Section 74, Contract Act; standing orders', why:'Long notice periods are legal, but the penalty for not serving them must be reasonable (typically pay in lieu of notice).',
+    action:'Negotiate 30–60 days, with buy-out option and a mutual period.' },
+  { id:'variable', sev:'med', docs:['offer'], re:/(?:variable|incentive|performance bonus|bonus)[^.]{0,100}(?:discretion|not guaranteed|no assurance|may be withheld|subject to company)/i,
+    title:'Discretionary variable pay inside CTC', cite:'Payment of Bonus Act 1965 / Code on Wages', why:'If a chunk of your CTC can be withheld at will, your real guaranteed pay is much lower than advertised.',
+    action:'Ask for the variable plan in writing with metrics, payout dates and a guaranteed floor.' },
+  { id:'probation', sev:'med', docs:['offer'], re:/probation[^.]{0,120}(?:without (?:any )?notice|terminat\w*[^.]{0,20}(?:at any time|immediately))/i,
+    title:'Termination without notice during probation', cite:'Industrial Employment (Standing Orders) / Shops & Establishments Acts', why:'Probationers can be let go more easily, but payment of dues and a reasonable notice are still expected.', action:'Ask for 15–30 days notice and full settlement of dues.' },
+  { id:'deduct', sev:'high', docs:['offer'], re:/deduct[^.]{0,80}(?:any|such|all)[^.]{0,40}(?:amount|sum|loss|damage)|(?:loss|damage)[^.]{0,60}recover(?:ed)?\s*from\s*(?:your\s*)?(?:salary|wages)/i,
+    title:'Open-ended salary deductions', cite:'Code on Wages 2019 / Payment of Wages Act 1936, s.7', why:'Employers can deduct wages only for specific lawful reasons and within limits. A blanket right to deduct for "losses" is not valid.', action:'Strike the clause or limit to statutory deductions only.' },
+  { id:'excl', sev:'med', docs:['offer'], re:/moonlight|exclusive(?:ly)?\s*(?:employ|service|work)|shall not (?:take up|engage in)[^.]{0,60}(?:other|any)\s*(?:employment|work|assignment)/i,
+    title:'Exclusivity / moonlighting ban', cite:'Section 27 (limits to during-employment only)', why:'Exclusivity during employment is generally valid; it cannot extend after you leave.', action:'Confirm it ends with employment and ask what non-conflicting side work is allowed.' },
+  { id:'gratuity', sev:'med', docs:['offer'], missing:true, re:/gratuity/i, title:'Gratuity not mentioned', cite:'Payment of Gratuity Act 1972 / Code on Social Security 2020', why:'Gratuity is a statutory benefit after qualifying service (generally 5 years, shorter in some fixed-term cases).', action:'Ask HR to confirm gratuity eligibility in writing.',
+    okTitle:'Gratuity addressed', okWhy:'A statutory retirement benefit is acknowledged.' },
+  { id:'pf', sev:'med', docs:['offer'], missing:true, re:/provident fund|\bEPF\b|\bPF\b|\bESI\b/i, title:'No PF / ESI mention', cite:'EPF & MP Act 1952; ESI Act 1948', why:'Covered establishments must enroll employees in PF (and ESI for lower wage bands).', action:'Ask for PF and ESI applicability in writing.',
+    okTitle:'PF / social security mentioned', okWhy:'Statutory social-security cover is acknowledged.' },
+  { id:'leave', sev:'med', docs:['offer'], missing:true, re:/leave/i, title:'Leave policy absent', cite:'State Shops & Establishments Acts', why:'Paid leave entitlements are statutory in most states, so the letter should reference them.', action:'Ask for annual, sick and casual leave counts.',
+    okTitle:'Leave entitlement stated', okWhy:'Paid leave is addressed.' },
 
-            document.getElementById('verdictTitle').innerText = analysis.title;
-            document.getElementById('verdictSubtitle').innerText = analysis.subtitle;
+  // ---- Internship
+  { id:'unpaid', sev:'med', docs:['internship'], re:/unpaid|no stipend|without (?:any )?(?:stipend|remuneration|compensation)|stipend[^.]{0,20}(?:nil|\b0\b|zero)/i,
+    title:'Unpaid internship', cite:'Apprentices Act 1961 (for apprentices); fairness', why:'Pure learning-oriented internships may be unpaid, but a profit-making company extracting productive work for free is exploitative — and unpaid terms should be short with clear learning outcomes.',
+    action:'Ask for a stipend, or a defined learning plan and a certificate/LOR.' },
+  { id:'stipend', sev:'med', docs:['internship'], skipIf:'unpaid', missing:true, re:/stipend|remuneration/i, title:'No stipend stated', cite:'Fair-dealing principle', why:'The letter says nothing about pay.', action:'Get the stipend amount and payment date in writing.', okTitle:'Stipend stated', okWhy:'Compensation is spelt out.' },
+  { id:'intfee', sev:'high', docs:['internship'], re:/(?:security deposit|registration fee|training fee|processing fee|pay (?:a |an )?(?:fee|amount)|refundable deposit)/i,
+    title:'Intern asked to pay a fee / deposit', cite:'Scam red flag; public policy (Section 23)', why:'Genuine employers pay or at least do not charge interns. Upfront fees are a classic scam pattern.', action:'Do not pay. Verify the company (MCA, LinkedIn, office address) first.' },
+  { id:'hours', sev:'med', docs:['internship'], fn:t => { const m=/(\d+)\s*hours?\s*(?:per|a|\/|each)\s*(day|week)/i.exec(t); if(!m) return null; const h=+m[1]; return ((m[2].toLowerCase()==='day' && h>9) || (m[2].toLowerCase()==='week' && h>48)) ? {index:m.index,len:m[0].length}:null; },
+    title:'Excessive working hours', cite:'State Shops & Establishments Acts (≈9 h/day, 48 h/week)', why:'Hours beyond statutory limits require overtime pay and are risky for students.', action:'Negotiate within 8–9 hours/day and fixed days.' },
+  { id:'intcert', sev:'med', docs:['internship'], missing:true, re:/certificate|letter of recommendation|\bLOR\b|PPO|pre-placement/i, title:'No certificate / LOR promised', cite:'Fairness', why:'Without a certificate, an internship gives you little career value.', action:'Ask for a completion certificate (and LOR/PPO consideration).', okTitle:'Certificate / LOR mentioned', okWhy:'You will get proof of the internship.' },
+  { id:'intdur', sev:'med', docs:['internship'], missing:true, re:/\d+[\s-]*(?:weeks?|months?)/i, title:'Duration not stated', cite:'Section 29 (certainty)', why:'Open-ended internships can drag on without outcome.', action:'Fix start and end dates.', okTitle:'Duration specified', okWhy:'A defined timeline exists.' },
 
-            const checklistEl = document.getElementById('checklistItems');
-            checklistEl.innerHTML = '';
-            (analysis.checklist || []).forEach((item, idx) => {
-                const li = document.createElement('li');
-                li.className = 'flex items-start space-x-2';
-                li.innerHTML = `<span class="text-wakeel-cyber font-mono font-bold">[${idx + 1}]</span><span>${item}</span>`;
-                checklistEl.appendChild(li);
-            });
+  // ---- Business: vendor
+  { id:'autorenew', sev:'med', docs:['vendor','freelance'], re:/auto(?:matically)?[\s-]?renew|evergreen|renew(?:s|ed)? automatically/i, title:'Auto-renewal trap', cite:'Section 29 (certainty) / fairness', why:'The contract rolls over for another long term unless you cancel in a narrow window.', action:'Replace with renewal by written agreement, or a 30–60 day opt-out reminder.' },
+  { id:'exclusive', sev:'med', docs:['vendor'], re:/exclusive(?:ly)?\s*(?:supplier|vendor|basis|right|arrangement)|sole supplier|shall not (?:procure|purchase|engage)[^.]{0,60}(?:other|third)/i, title:'Exclusivity lock-in', cite:'Section 27 (restraint) & Competition Act 2002 s.3(4)', why:'Exclusive dealing during the contract can be valid but may hurt your flexibility and, in dominant situations, competition law.', action:'Limit exclusivity by scope, volume and time, or make it reciprocal.' },
+  { id:'priceChange', sev:'med', docs:['vendor'], re:/(?:revise|change|modify|increase|amend)[^.]{0,50}(?:price|fees?|rates?|terms)[^.]{0,50}(?:sole discretion|unilateral|at any time|without (?:prior )?(?:notice|consent))/i, title:'Unilateral price / terms change', cite:'Section 62, Contract Act (novation requires consent)', why:'Changing terms needs mutual consent; a clause allowing one side to rewrite them is one-sided.', action:'Require written mutual consent with 60 days notice for any change.' },
+  { id:'datap', sev:'med', docs:['vendor'], missing:true, re:/personal data|data protection|DPDP|privacy/i, title:'No data-protection terms', cite:'Digital Personal Data Protection Act 2023; IT Act 2000 s.43A', why:'If the vendor touches personal data, you need purpose, security and breach-notice obligations.', action:'Add a data-processing clause and breach notification.', okTitle:'Data-protection terms present', okWhy:'Personal-data handling is covered.' },
+  { id:'forcemaj', sev:'med', docs:['vendor','lease'], missing:true, re:/force majeure|act of god|frustrat/i, title:'No force majeure', cite:'Section 56, Contract Act 1872', why:'Without it, you rely on the narrow doctrine of frustration when events outside your control hit.', action:'Add a force-majeure clause covering extraordinary events.', okTitle:'Force majeure clause present', okWhy:'Both sides are protected from extraordinary events.' },
+  { id:'confid', sev:'med', docs:['vendor'], missing:true, re:/confidential/i, title:'No confidentiality clause', cite:'Contract Act / trade-secret protection', why:'Shared business information is unprotected.', action:'Add a mutual confidentiality clause.', okTitle:'Confidentiality covered', okWhy:'Confidential information is protected.' },
 
-            // Red Risks
-            const redContainer = document.getElementById('redRiskList');
-            redContainer.innerHTML = '';
-            if (analysis.highRisk && analysis.highRisk.length > 0) {
-                analysis.highRisk.forEach(risk => {
-                    const card = document.createElement('div');
-                    card.className = 'p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 space-y-2';
-                    card.innerHTML = `
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-mono font-bold text-rose-400">${risk.citation}</span>
-                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold">VOID IN INDIA</span>
-                        </div>
-                        <h5 class="text-sm font-bold text-white">${risk.title}</h5>
-                        <p class="text-xs text-wakeel-light leading-relaxed">${risk.eli5}</p>
-                        <div class="text-xs font-mono text-wakeel-cyber pt-1 font-semibold"><i class="fa-solid fa-lightbulb"></i> Action: ${risk.action}</div>
-                    `;
-                    redContainer.appendChild(card);
-                });
-            } else {
-                redContainer.innerHTML = `<div class="p-3 rounded-xl bg-wakeel-panel border border-wakeel-border text-xs text-wakeel-muted font-mono">No critical statutory violations found in this contract.</div>`;
-            }
+  // ---- Business: partnership
+  { id:'vesting', sev:'high', docs:['partnership'], missing:true, re:/vesting|cliff|vests? (?:over|monthly|annually)/i, title:'No founder vesting', cite:'Contract Act / Companies Act 2013 (shareholder agreements)', why:'Without vesting a co-founder can leave on day one with their full equity.', action:'Add 4-year vesting with a 1-year cliff.', fix:'"Founder shares vest over 4 years with a 1-year cliff; unvested shares are bought back at par on exit."', okTitle:'Founder vesting defined', okWhy:'Equity is earned over time.' },
+  { id:'exitpart', sev:'med', docs:['partnership'], missing:true, re:/exit|buy[\s-]?back|right of first (?:refusal|offer)|\bROFR\b|valuation|tag[\s-]?along/i, title:'No exit / valuation mechanism', cite:'Partnership Act 1932; Companies Act 2013', why:'Without exit terms, leaving or removing a founder turns into a dispute.', action:'Add buy-out terms, valuation method and ROFR.', okTitle:'Exit mechanism defined', okWhy:'There is a path for exits and buy-outs.' },
+  { id:'profit', sev:'med', docs:['partnership'], missing:true, re:/profit|equity|shareholding|\d+\s*%/i, title:'Profit / equity split not stated', cite:'Partnership Act 1932, s.13', why:'Silence defaults to equal sharing, which may not match contributions.', action:'State equity percentages and profit-sharing rules.', okTitle:'Equity / profit split stated', okWhy:'Ownership shares are clear.' },
+  { id:'sole', sev:'high', docs:['partnership'], re:/sole discretion of (?:the )?(?:majority|founder|managing partner|promoter)|(?:majority|managing partner)[^.]{0,40}(?:may|can) (?:remove|expel|dilute)[^.]{0,60}(?:without|at any time)/i, title:'Unilateral expulsion / dilution power', cite:'Companies Act 2013 s.241 (oppression); Partnership Act s.33', why:'One party can remove or dilute others at will. Minority protections and cause-based removal are standard.', action:'Require cause, notice and a fair-value buy-out.' },
+  { id:'dragalong', sev:'med', docs:['partnership'], re:/drag[\s-]?along/i, title:'Drag-along rights', cite:'Companies Act 2013 (shareholder agreements)', why:'Check thresholds and minimum price protections so minorities are not forced out cheaply.', action:'Set a high approval threshold and a minimum price floor.' },
+  { id:'ipco', sev:'med', docs:['partnership'], missing:true, re:/intellectual property|\bIP\b|assign/i, title:'No IP assignment to the venture', cite:'Copyright Act 1957 s.19; Trade Marks Act 1999', why:'If founders keep IP personally, the company owns nothing valuable.', action:'Add founder IP assignment to the company.', okTitle:'IP assigned to the venture', okWhy:'The venture owns its IP.' },
 
-            // Yellow Risks
-            const yellowContainer = document.getElementById('yellowRiskList');
-            yellowContainer.innerHTML = '';
-            if (analysis.mediumRisk && analysis.mediumRisk.length > 0) {
-                analysis.mediumRisk.forEach(risk => {
-                    const card = document.createElement('div');
-                    card.className = 'p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 space-y-2';
-                    card.innerHTML = `
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-mono font-bold text-amber-400">${risk.citation}</span>
-                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">HARSH TERM</span>
-                        </div>
-                        <h5 class="text-sm font-bold text-white">${risk.title}</h5>
-                        <p class="text-xs text-wakeel-light leading-relaxed">${risk.eli5}</p>
-                        <div class="text-xs font-mono text-wakeel-cyber pt-1 font-semibold"><i class="fa-solid fa-lightbulb"></i> Action: ${risk.action}</div>
-                    `;
-                    yellowContainer.appendChild(card);
-                });
-            } else {
-                yellowContainer.innerHTML = `<div class="p-3 rounded-xl bg-wakeel-panel border border-wakeel-border text-xs text-wakeel-muted font-mono">No moderate risk terms identified.</div>`;
-            }
+  // ---- Business: lease
+  { id:'deposit', sev:'med', docs:['lease'], fn:numRule(/(\d+)\s*months?'?\s*(?:rent\s*)?(?:as\s*)?(?:security\s*)?deposit|security deposit[^.]{0,40}?(\d+)\s*months/i, m => +(m[1]||m[2]) > 6), title:'Security deposit above 6 months', cite:'Model Tenancy Act 2021 (commercial norm 6 months)', why:'A very large deposit ties up cash and risks non-refund.', action:'Negotiate 3–6 months with interest/return timeline.' },
+  { id:'escal', sev:'med', docs:['lease'], fn:numRule(/(?:escalat|increase|enhance)[^.]{0,60}?(\d+)\s*%/i, m => +m[1] > 10), title:'Rent escalation above 10%', cite:'Contractual fairness', why:'Compounded annually, this quickly doubles rent.', action:'Cap at 5–7% per year or 15% every 3 years.' },
+  { id:'lockin', sev:'med', docs:['lease'], fn:numRule(/lock[\s-]?in[^.]{0,40}?(\d+)\s*(months?|years?)/i, m => (/year/i.test(m[2]) ? +m[1]*12 : +m[1]) >= 36), title:'Long lock-in period', cite:'Section 74, Contract Act 1872', why:'You pay even if the business fails or relocates.', action:'Reduce to 6–12 months with a break clause.' },
+  { id:'evict', sev:'high', docs:['lease'], re:/(?:evict|terminat|vacate)[^.]{0,80}(?:without (?:any )?notice|immediately|forthwith)|(?:landlord|lessor)[^.]{0,60}(?:enter|inspect)[^.]{0,60}(?:any time|without (?:prior )?notice)/i, title:'Eviction or entry without notice', cite:'Transfer of Property Act 1882 s.106; state Rent Acts', why:'Tenants have statutory notice and quiet-enjoyment rights; the lease cannot waive them wholesale.', action:'Require 30 days notice for eviction and 24-hour notice for entry.' },
+  { id:'leasereg', sev:'med', docs:['lease'], missing:true, re:/registered|registration|sub-registrar|stamp duty|stamped/i, title:'Registration / stamping not mentioned', cite:'Registration Act 1908 s.17; State Stamp Acts', why:'Leases over one year must be registered and stamped to be admissible as evidence.', action:'Register and pay stamp duty (or keep tenure ≤ 11 months).', okTitle:'Registration / stamping addressed', okWhy:'The lease formalities are covered.' },
+  { id:'maint', sev:'med', docs:['lease'], missing:true, re:/maintenance|repairs?/i, title:'Repairs & maintenance unclear', cite:'Transfer of Property Act 1882 s.108', why:'Without allocation, small disputes become big ones.', action:'Split structural vs. day-to-day repairs.', okTitle:'Maintenance responsibilities stated', okWhy:'Repairs are allocated.' },
 
-            // Green Clauses
-            const greenContainer = document.getElementById('greenRiskList');
-            greenContainer.innerHTML = '';
-            if (analysis.goodClauses && analysis.goodClauses.length > 0) {
-                analysis.goodClauses.forEach(clause => {
-                    const card = document.createElement('div');
-                    card.className = 'p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 space-y-2';
-                    card.innerHTML = `
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-mono font-bold text-emerald-400">${clause.citation}</span>
-                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold">FAIR & BALANCED</span>
-                        </div>
-                        <h5 class="text-sm font-bold text-white">${clause.title}</h5>
-                        <p class="text-xs text-wakeel-light leading-relaxed">${clause.eli5}</p>
-                    `;
-                    greenContainer.appendChild(card);
-                });
-            } else {
-                greenContainer.innerHTML = `<div class="p-3 rounded-xl bg-wakeel-panel border border-wakeel-border text-xs text-wakeel-muted font-mono">No positive clauses detected.</div>`;
-            }
-        }
+  // ---- Stamping reminder for others
+  { id:'stamp', sev:'med', docs:['vendor','partnership'], missing:true, re:/stamp(?:ed|ing)?|e-stamp|registered/i, title:'No stamping mention', cite:'Indian Stamp Act 1899 / State Acts', why:'Unstamped agreements are inadmissible as evidence until duty and penalty are paid.', action:'Execute on stamp paper or e-stamp.', okTitle:'Stamping addressed', okWhy:'Execution formalities are noted.' }
+];
 
-        function analyzeContractText() {
-            const text = document.getElementById('contractInput').value.trim();
-            if (!text) {
-                alert("Please upload a PDF file or paste contract text to scan.");
-                return;
-            }
+/* ---------- helpers ---------- */
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
+const $ = id => document.getElementById(id);
+function excerpt(t, idx, len) { const s=Math.max(0,idx-50), e=Math.min(t.length, idx+len+70); return (s>0?'…':'') + t.slice(s,e).replace(/\s+/g,' ').trim() + (e<t.length?'…':''); }
+function levelOf(score) {
+  if (score >= 67) return { name:'CRITICAL RISK', cls:'bg-rose-500/10 text-rose-400 border-rose-500/40' };
+  if (score >= 45) return { name:'HIGH RISK', cls:'bg-orange-500/10 text-orange-400 border-orange-500/40' };
+  if (score >= 25) return { name:'MODERATE RISK', cls:'bg-amber-500/10 text-amber-400 border-amber-500/40' };
+  return { name:'LOW RISK', cls:'bg-emerald-500/10 text-emerald-400 border-emerald-500/40' };
+}
 
-            const matchedPreset = CONTRACT_PRESETS.find(p => text.includes(p.text.substring(0, 30)));
-            if (matchedPreset) {
-                renderAnalysis(matchedPreset.analysis);
-                return;
-            }
+function analyzeContract(text, docId) {
+  const rules = RULES.filter(r => r.docs.includes(docId));
+  const hit = {};
+  rules.forEach(r => {
+    let h = null;
+    if (r.re) { const m = r.re.exec(text); if (m) h = excerpt(text, m.index, m[0].length); }
+    else if (r.fn) { const m = r.fn(text); if (m) h = excerpt(text, m.index, m.len); }
+    hit[r.id] = h;
+  });
+  const out = { high:[], med:[], good:[] };
+  rules.forEach(r => {
+    const h = hit[r.id];
+    if (r.missing) {
+      if (!h) out[r.sev].push({ title:r.title, cite:r.cite, why:r.why, action:r.action, fix:r.fix, missing:true });
+      else if (r.okTitle) out.good.push({ title:r.okTitle, cite:r.cite, why:r.okWhy, excerpt:h });
+    } else if (h && !(r.skipIf && hit[r.skipIf])) {
+      out[r.sev].push({ title:r.title, cite:r.cite, why:r.why, action:r.action, fix:r.fix, excerpt:h });
+    }
+  });
+  const score = Math.max(4, Math.min(97, Math.round(8 + out.high.length*24 + out.med.length*11 - out.good.length*3)));
+  return buildAnalysis(docId, score, out, `${text.trim().split(/\s+/).length} words scanned against ${rules.length} Indian-law checks.`);
+}
 
-            evaluateCustomContract(text);
-        }
+function buildAnalysis(docId, score, out, scanNote) {
+  const lv = levelOf(score);
+  const titles = {
+    'CRITICAL RISK':'Predatory terms detected — do not sign as is',
+    'HIGH RISK':'Several one-sided clauses need fixing',
+    'MODERATE RISK':'Workable, but tighten a few points',
+    'LOW RISK':'Fair and balanced — only minor checks'
+  };
+  const checklist = [...out.high, ...out.med].map(f => f.action).filter(Boolean);
+  const uniq = [...new Set(checklist)].slice(0, 8);
+  if (!uniq.length) uniq.push('No urgent revisions found. Re-read the final version for names, dates and amounts.');
+  if (docId !== 'salary') uniq.push('Execute on proper stamp paper / e-stamp as per your state, and keep a signed copy.');
+  return { docId, score, level:lv.name, badge:lv.cls, title:titles[lv.name], subtitle:scanNote, checklist:uniq, high:out.high, med:out.med, good:out.good };
+}
 
-        function evaluateCustomContract(text) {
-            let score = 25;
-            let highRisks = [];
-            let mediumRisks = [];
-            let goodClauses = [];
-            let checklist = [];
+/* =====================================================================
+   SALARY SLIP ANALYSER
+   ===================================================================== */
+const SAL_FIELDS = [
+  ['basic','Basic pay'],['hra','HRA'],['special','Special / other allowances'],['variable','Variable / bonus'],
+  ['gross','Gross (optional, auto-sums)'],['pf','Employee PF'],['esi','ESI'],['pt','Professional tax'],
+  ['tds','TDS / income tax'],['otherded','Other deductions'],['net','Net pay (as printed)'],['rent','Monthly rent paid'],
+  ['d80c','Annual 80C (excl. PF)'],['dother','Annual 80D / NPS / other']
+];
+const SAL_SAMPLE = { basic:18000, hra:9000, special:28000, variable:5000, pf:2160, esi:0, pt:200, tds:5200, otherded:1500, rent:20000, d80c:0, dother:0, net:50940, metro:'1' };
 
-            const lower = text.toLowerCase();
+const taxNew = ti => { const S=[[4e5,0],[8e5,.05],[12e5,.10],[16e5,.15],[20e5,.20],[24e5,.25],[Infinity,.30]]; let t=0,prev=0; for(const [cap,r] of S){ if(ti>prev) t+=(Math.min(ti,cap)-prev)*r; prev=cap; } if(ti<=12e5) t=0; else t=Math.min(t, ti-12e5); return t*1.04; };
+const taxOld = ti => { const S=[[2.5e5,0],[5e5,.05],[10e5,.20],[Infinity,.30]]; let t=0,prev=0; for(const [cap,r] of S){ if(ti>prev) t+=(Math.min(ti,cap)-prev)*r; prev=cap; } if(ti<=5e5) t=0; return t*1.04; };
 
-            if (lower.includes("non-compete") || lower.includes("competitor") || lower.includes("restraint")) {
-                score += 35;
-                highRisks.push({
-                    title: "Restraint of Trade / Non-Compete",
-                    citation: "Section 27, Indian Contract Act 1872",
-                    eli5: "Restricting a freelancer or worker from taking jobs post-termination is void under Indian Law.",
-                    action: "Ask contractor to delete post-termination non-compete provisions entirely."
-                });
-                checklist.push("Strike out any post-employment non-compete clauses (Void under Section 27).");
-            }
+function readSalary() {
+  const v = {}; SAL_FIELDS.forEach(([k]) => v[k] = parseFloat($('sal_'+k).value) || 0);
+  v.metro = $('sal_metro').value === '1'; return v;
+}
 
-            if (lower.includes("penalty") || lower.includes("damages") || lower.includes("50,00,000") || lower.includes("10,00,000")) {
-                score += 25;
-                highRisks.push({
-                    title: "Arbitrary Penalty / Excessive Liquidated Damages",
-                    citation: "Section 74, Indian Contract Act 1872",
-                    eli5: "Pre-agreed excessive damage figures without actual loss calculation are non-enforceable.",
-                    action: "Cap total potential liability to the total invoice amount received."
-                });
-                checklist.push("Cap overall breach liability strictly to 100% of the invoice fee.");
-            }
+function analyzeSalary(v) {
+  const out = { high:[], med:[], good:[] };
+  const calcGross = v.basic + v.hra + v.special + v.variable;
+  const gross = v.gross || calcGross;
+  if (gross <= 0) return null;
+  const ded = v.pf + v.esi + v.pt + v.tds + v.otherded;
+  const net = gross - ded;
 
-            if (lower.includes("delaware") || lower.includes("us court") || lower.includes("foreign")) {
-                score += 15;
-                mediumRisks.push({
-                    title: "Foreign Choice of Law & Overseas Jurisdiction",
-                    citation: "Section 28, Indian Contract Act 1872",
-                    eli5: "Specifying foreign courts (e.g. USA) creates unreasonable hardship for Indian freelancers.",
-                    action: "Request jurisdiction to be changed to your local Indian High Court or City."
-                });
-                checklist.push("Change dispute jurisdiction to local courts in India.");
-            }
+  // Structure
+  const share = v.basic / gross;
+  if (v.basic > 0) {
+    if (share < 0.30) out.high.push({ title:`Basic is only ${(share*100).toFixed(0)}% of gross`, cite:'Code on Wages 2019 (50% "wages" test)', why:'Under the labour codes, "wages" (basic + DA) should generally be at least 50% of total remuneration. A tiny basic shrinks PF, gratuity and overtime.', action:'Ask HR to restructure so basic is ~40–50% of gross, if the new wage definition applies to your employer.' });
+    else if (share < 0.50) out.med.push({ title:`Basic is ${(share*100).toFixed(0)}% of gross`, cite:'Code on Wages 2019 (50% "wages" test)', why:'Allowances are heavy compared to basic. This lowers PF and gratuity and may not match the 50% wage definition now used in the labour codes.', action:'Ask HR whether the structure has been aligned with the labour codes.' });
+    else out.good.push({ title:`Basic is ${(share*100).toFixed(0)}% of gross`, cite:'Code on Wages 2019', why:'A healthy basic share supports PF, gratuity and leave encashment.' });
+  }
+  if (v.variable / gross > 0.25) out.med.push({ title:`Variable pay is ${(v.variable/gross*100).toFixed(0)}% of gross`, cite:'Payment of Bonus Act / contract', why:'A large variable portion is not guaranteed — your fixed pay is lower than the headline.', action:'Confirm the variable plan, payout dates and guaranteed floor.' });
 
-            if (lower.includes("payment") || lower.includes("upon receipt") || lower.includes("full payment")) {
-                goodClauses.push({
-                    title: "Payment Transfer Conditions",
-                    citation: "Section 19, Copyright Act 1957",
-                    eli5: "Ensures IP transfers only when payments are completed."
-                });
-            }
+  // PF
+  const pfFull = v.basic*0.12, pfCap = Math.min(v.basic,15000)*0.12;
+  if (v.basic>0) {
+    if (v.pf === 0) out.med.push({ title:'No PF deducted', cite:'EPF & MP Act 1952', why:'PF is mandatory for covered establishments (20+ staff) and for new members earning ≤ ₹15,000 basic. No PF means no retirement corpus or UAN history.', action:'Check with HR whether the establishment is covered and whether you opted out.' });
+    else if (Math.abs(v.pf - pfFull) <= pfFull*0.02 + 1) out.good.push({ title:'PF is 12% of basic', cite:'EPF Scheme 1952', why:`Employee PF of ${inr(v.pf)} matches the standard rate.` });
+    else if (Math.abs(v.pf - pfCap) <= 1) out.good.push({ title:'PF on the ₹15,000 wage ceiling', cite:'EPF Scheme 1952', why:`PF is ${inr(v.pf)} (12% of ₹15,000). That is allowed, but you can ask to contribute on actual basic (${inr(pfFull)}) to build a bigger corpus.` });
+    else out.med.push({ title:'PF does not match 12%', cite:'EPF & MP Act 1952', why:`Expected about ${inr(pfFull)} (12% of basic) or ${inr(pfCap)} on the ceiling, but ${inr(v.pf)} was deducted.`, action:'Verify against your EPFO passbook and ask payroll to explain the difference.' });
+  }
+  // PT
+  if (v.pt*12 > 2500 + 1) out.high.push({ title:'Professional tax above the ₹2,500/yr cap', cite:'Article 276(2), Constitution of India', why:`${inr(v.pt)} per month is about ${inr(v.pt*12)} a year. States cannot levy more than ₹2,500 per person per year.`, action:'Raise it with payroll and request a correction/refund.' });
+  else if (v.pt > 0) out.good.push({ title:'Professional tax within the legal cap', cite:'Article 276(2)', why:'State professional tax is within the ₹2,500/year ceiling.' });
+  // ESI
+  if (gross <= 21000) {
+    const exp = gross*0.0075;
+    if (v.esi === 0) out.med.push({ title:'ESI may be applicable', cite:'ESI Act 1948 (gross ≤ ₹21,000)', why:'Employees earning up to ₹21,000/month in covered establishments are entitled to ESI medical and cash benefits (employee share 0.75%).', action:'Ask HR if the unit is ESI-covered.' });
+    else if (Math.abs(v.esi-exp) > exp*0.1 + 1) out.med.push({ title:'ESI amount looks off', cite:'ESI Act 1948', why:`Expected about ${inr(exp)} (0.75% of gross) but ${inr(v.esi)} was deducted.`, action:'Ask payroll to reconcile.' });
+  } else if (v.esi > 0) out.med.push({ title:'ESI deducted above the wage ceiling', cite:'ESI Act 1948', why:'ESI generally stops applying once gross exceeds ₹21,000/month.', action:'Ask HR why ESI is still deducted.' });
 
-            if (checklist.length === 0) {
-                checklist.push("Confirm milestone deadlines and late payment interest clauses.");
-            }
+  // Other deductions
+  if (v.otherded > gross*0.05) out.med.push({ title:`Unexplained deductions of ${inr(v.otherded)}`, cite:'Code on Wages 2019 on deductions', why:'Deductions must be authorised and listed. Anything above 5% of gross that is unexplained deserves a question.', action:'Ask payroll for the line-item reason in writing.' });
+  // Arithmetic
+  if (v.net > 0 && Math.abs(v.net - net) > 5) out.high.push({ title:'Net pay does not add up', cite:'Payment of Wages principles', why:`Gross ${inr(gross)} minus deductions ${inr(ded)} should be ${inr(net)}, but the slip shows ${inr(v.net)} (difference ${inr(Math.abs(v.net-net))}).`, action:'Request a corrected payslip and bank-credit reconciliation.' });
+  else if (v.net > 0) out.good.push({ title:'Net pay reconciles', cite:'Arithmetic check', why:'Gross minus deductions equals the stated take-home.' });
 
-            const analysis = {
-                riskScore: Math.min(score, 95),
-                level: score > 60 ? "HIGH RISK" : score > 30 ? "MODERATE RISK" : "LOW RISK",
-                badgeColor: score > 60 ? "bg-rose-500/10 text-rose-400 border-rose-500/40" : "bg-amber-500/10 text-amber-400 border-amber-500/40",
-                title: score > 60 ? "Potentially Predatory Provisions Detected" : "Standard Legal Risk Profile",
-                subtitle: `Scanned ${text.length} characters under Indian Statutory Law.`,
-                checklist,
-                highRisk: highRisks,
-                mediumRisk: mediumRisks,
-                goodClauses: goodClauses
-            };
+  // Tax
+  const annualGross = gross*12;
+  const ti_new = Math.max(0, annualGross - 75000);
+  const tNew = taxNew(ti_new);
+  const hraEx = Math.max(0, Math.min(v.hra*12, v.rent*12 - 0.1*v.basic*12, (v.metro?0.5:0.4)*v.basic*12));
+  const c80c = Math.min(150000, v.pf*12 + v.d80c);
+  const ti_old = Math.max(0, annualGross - 50000 - hraEx - c80c - v.dother - v.pt*12);
+  const tOld = taxOld(ti_old);
+  const best = tNew <= tOld ? 'new' : 'old';
+  const bestTax = Math.min(tNew, tOld);
+  const estMonthMin = Math.min(tNew,tOld)/12, estMonthMax = Math.max(tNew,tOld)/12;
+  if (v.tds > estMonthMax*1.1 + 300) out.med.push({ title:'TDS looks higher than needed', cite:'Income-tax rules on salary TDS', why:`You pay ${inr(v.tds)}/month, but the estimated tax is only ${inr(estMonthMin)}–${inr(estMonthMax)}/month under either regime. You may have missed submitting declarations or be on the wrong regime.`, action:'Submit the tax declaration (rent, 80C, 80D) and choose the better regime with HR. Any excess can be claimed back in your ITR.' });
+  else if (v.tds < estMonthMin*0.6 - 300) out.med.push({ title:'TDS may be too low', cite:'Income-tax rules on salary TDS', why:`TDS of ${inr(v.tds)}/month is below the estimated ${inr(estMonthMin)}/month. You may owe tax when you file.`, action:'Set aside the shortfall or ask HR to adjust TDS.' });
+  else out.good.push({ title:'TDS is in the expected range', cite:'Income-tax rules on salary TDS', why:`${inr(v.tds)}/month is close to the estimated ${inr(estMonthMin)}–${inr(estMonthMax)}/month.` });
 
-            renderAnalysis(analysis);
-        }
+  let score = Math.max(4, Math.min(97, Math.round(8 + out.high.length*24 + out.med.length*11 - out.good.length*2)));
+  const a = buildAnalysis('salary', score, out, `Audited ${inr(gross)} gross/month (${inr(annualGross)}/yr) against PF, ESI, PT, wage-structure and tax rules.`);
+  a.titles = { 'CRITICAL RISK':'Payslip has serious errors', 'HIGH RISK':'Payslip needs corrections', 'MODERATE RISK':'Mostly fine — a few things to query', 'LOW RISK':'Healthy payslip' };
+  a.title = a.titles[a.level];
+  a.salary = { gross, ded, net, annualGross, tNew, tOld, best, saving:Math.abs(tNew-tOld), hraEx, parts:[['Net pay',net,'#2ecc40'],['PF',v.pf,'#00f0ff'],['TDS',v.tds,'#ff0055'],['PT + ESI',v.pt+v.esi,'#ffb703'],['Other',v.otherded,'#7a8aa3']] };
+  return a;
+}
 
-        function downloadPdfReport() {
-            if (window.jspdf) {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
+function parseSlip(text) {
+  const grab = (re) => { const m = new RegExp(re.source + '[^0-9\\n]{0,30}([0-9][0-9,]*(?:\\.[0-9]+)?)', 'i').exec(text); return m ? parseFloat(m[1].replace(/,/g,'')) : null; };
+  const map = {
+    basic: /basic(?:\s*(?:pay|salary|wages))?/, hra: /\bhra\b|house rent allowance/, special: /special allowance|other allowances?/,
+    variable: /variable pay|bonus|incentive/, pf: /(?:employee\W*)?(?:provident fund|\bepf\b|\bpf\b)/, esi: /\besi\b|state insurance/,
+    pt: /professional tax|\bp\.?t\.?\b/, tds: /\btds\b|income tax|tax deducted/, gross: /gross (?:earnings|salary|pay|total)|total earnings/, net: /net (?:pay|salary|payable)|take[\s-]?home/
+  };
+  let n = 0; for (const k in map) { const val = grab(map[k]); if (val != null) { $('sal_'+k).value = val; n++; } } return n;
+}
 
-                doc.setFillColor(5, 7, 10);
-                doc.rect(0, 0, 210, 297, "F");
+/* =====================================================================
+   UI STATE
+   ===================================================================== */
+let state = { stack:'freelancer', doc:'freelance' };
+let last = null, FINDINGS = [];
 
-                doc.setTextColor(255, 153, 51);
-                doc.setFont("helvetica", "bold");
-                doc.setFontSize(18);
-                doc.text("WAKEEL AI: STATUTORY RISK REPORT", 15, 20);
+function renderStackCards() {
+  $('stackCards').innerHTML = Object.entries(STACKS).map(([k,s]) => `
+    <button class="stack-card ${state.stack===k?'active':''}" style="--c:${s.color};--crgb:${s.rgb}" onclick="selectStack('${k}')">
+      <div class="flex items-start gap-3">
+        <div class="ico"><i class="fa-solid ${s.icon}"></i></div>
+        <div class="flex-1"><div class="text-base font-extrabold text-white">${s.label}</div>
+          <p class="text-xs text-wk-muted mt-1 leading-snug">${s.blurb}</p>
+          <div class="flex flex-wrap gap-1.5 mt-3">${s.docs.map(d=>`<span class="text-[10px] font-mono px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-slate-300">${DOCS[d].label}</span>`).join('')}</div></div>
+      </div>
+    </button>`).join('');
+}
+function renderPills() {
+  const s = STACKS[state.stack];
+  $('stackLabel').innerHTML = `<i class="fa-solid ${s.icon} mr-1.5"></i>${s.label} tools`;
+  $('docPills').innerHTML = s.docs.map(d => `<button class="pill ${state.doc===d?'active':''}" onclick="selectDoc('${d}')"><i class="fa-solid ${DOCS[d].icon} mr-1.5"></i>${DOCS[d].label}</button>`).join('');
+}
+function applyAccent() {
+  const s = STACKS[state.stack]; const r = document.documentElement.style;
+  r.setProperty('--accent', s.color); r.setProperty('--accent-rgb', s.rgb);
+}
+function renderInput() {
+  const d = DOCS[state.doc], isSal = state.doc === 'salary';
+  $('inputTitle').innerHTML = `<i class="fa-solid ${d.icon}" style="color:var(--accent)"></i><span>1. ${isSal ? 'ENTER YOUR PAYSLIP' : 'INGEST ' + d.label.toUpperCase()}</span>`;
+  $('contractPanel').classList.toggle('hidden', isSal);
+  $('salaryPanel').classList.toggle('hidden', !isSal);
+  $('analyzeLabel').innerText = isSal ? 'AUDIT MY PAYSLIP' : 'RUN STATUTORY RISK ANALYSIS';
+  $('dropHint').innerText = isSal ? 'Upload a text-based payslip PDF to auto-fill (always verify).' : 'Text is read in your browser — nothing is uploaded.';
+  $('contractInput').placeholder = d.ph;
+  $('phTitle').innerText = isSal ? 'Awaiting payslip' : 'Awaiting ' + d.label.toLowerCase();
+  $('phText').innerText = d.ph; $('phIcon').className = 'fa-solid ' + d.icon;
+  const samples = isSal ? [{name:'Sample payslip'}] : (SAMPLES[state.doc] || []);
+  $('sampleRow').innerHTML = `<span class="text-[11px] font-mono text-wk-muted font-bold">TRY A SAMPLE:</span>` + samples.map((s,i)=>`<button onclick="loadSample(${i})" class="text-[11px] font-mono font-bold px-3 py-1.5 rounded-lg border border-wk-border bg-wk-panel/80 hover:border-[var(--accent)] hover:text-white text-slate-300 transition"><i class="fa-solid fa-flask mr-1.5" style="color:var(--accent)"></i>${esc(s.name)}</button>`).join('');
+  $('chatSub').innerText = STACKS[state.stack].label + ' mode · Indian law';
+}
+function selectStack(k) { state.stack = k; state.doc = STACKS[k].docs[0]; refreshAll(); }
+function selectDoc(d) { state.doc = d; clearResults(); renderPills(); renderInput(); renderChips(); }
+function refreshAll() { applyAccent(); renderStackCards(); renderPills(); renderInput(); clearResults(); renderChips(); }
 
-                doc.setTextColor(255, 255, 255);
-                doc.setFontSize(10);
-                doc.text("Grounded in Indian Contract Act 1872", 15, 28);
+function updateCount() { $('charCount').innerText = $('contractInput').value.length + ' chars'; }
+function clearResults() { $('results').classList.add('hidden'); $('placeholder').classList.remove('hidden'); setGauge(0); $('scoreVal').innerText = 0; last = null; }
+function resetAll() {
+  $('contractInput').value = ''; $('fileInput').value = ''; $('fileBadge').classList.add('hidden'); $('statusLabel').innerText = 'Ready';
+  SAL_FIELDS.forEach(([k]) => $('sal_'+k).value = ''); $('salStatus').innerText = 'Enter or upload';
+  updateCount(); clearResults();
+}
+function loadSample(i) {
+  if (state.doc === 'salary') { SAL_FIELDS.forEach(([k]) => $('sal_'+k).value = SAL_SAMPLE[k] ?? ''); $('sal_metro').value = SAL_SAMPLE.metro; $('salStatus').innerText = 'Sample loaded'; }
+  else { const s = SAMPLES[state.doc][i]; $('contractInput').value = s.text; updateCount(); $('statusLabel').innerText = 'Sample loaded'; }
+  runAnalysis();
+}
 
-                const score = document.getElementById('riskScoreVal').innerText;
-                const level = document.getElementById('riskLevelBadge').innerText;
+/* ---------- file handling ---------- */
+async function readPdf(file) {
+  if (!window.pdfjsLib) throw new Error('pdf.js not loaded');
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
+  let out = '';
+  for (let p = 1; p <= pdf.numPages; p++) { const c = await (await pdf.getPage(p)).getTextContent(); out += c.items.map(i => i.str).join(' ') + '\n'; }
+  return out;
+}
+async function handleFile(e) {
+  const f = e.target.files && e.target.files[0]; if (!f) return;
+  const badge = $('fileBadge'); badge.innerText = '📄 ' + f.name; badge.classList.remove('hidden');
+  const isSal = state.doc === 'salary';
+  const setStatus = t => (isSal ? $('salStatus') : $('statusLabel')).innerText = t;
+  setStatus('Reading…');
+  try {
+    const text = /\.pdf$/i.test(f.name) ? await readPdf(f) : await f.text();
+    if (text.trim().length < 20) { setStatus('Scanned image? Paste text instead'); return; }
+    if (isSal) { const n = parseSlip(text); setStatus(n ? `Auto-filled ${n} fields — verify` : 'Could not read fields — enter manually'); }
+    else { $('contractInput').value = text.trim(); updateCount(); setStatus('File parsed'); }
+  } catch (err) { console.error(err); setStatus('Read error — paste text'); }
+}
+['dragover','drop'].forEach(ev => document.addEventListener(ev, e => {
+  if (!e.target.closest || !e.target.closest('#dropzone')) return; e.preventDefault();
+  if (ev === 'drop' && e.dataTransfer.files.length) { $('fileInput').files = e.dataTransfer.files; handleFile({ target:$('fileInput') }); }
+}));
 
-                doc.setFillColor(18, 24, 36);
-                doc.roundedRect(15, 35, 180, 25, 3, 3, "F");
+/* ---------- run ---------- */
+function runAnalysis() {
+  let a;
+  if (state.doc === 'salary') {
+    a = analyzeSalary(readSalary());
+    if (!a) { alert('Enter at least basic pay and allowances (or gross) to audit the payslip.'); return; }
+  } else {
+    const t = $('contractInput').value.trim();
+    if (t.length < 40) { alert('Paste or upload a bit more contract text (at least a few clauses).'); return; }
+    a = analyzeContract(t, state.doc);
+  }
+  const btn = $('analyzeBtn'), lbl = $('analyzeLabel'), old = lbl.innerText;
+  btn.disabled = true; lbl.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i>SCANNING CLAUSES…';
+  setTimeout(() => { btn.disabled = false; lbl.innerText = old; render(a); }, 650);
+}
 
-                doc.setFontSize(14);
-                doc.setTextColor(0, 240, 255);
-                doc.text(`RISK SCORE: ${score}/100 [${level}]`, 20, 50);
+/* ---------- render ---------- */
+function setGauge(score) { $('needle').style.transform = `rotate(${(score/100)*180}deg)`; }
+function countUp(el, to) { const t0 = performance.now(); const step = t => { const p = Math.min(1,(t-t0)/1100); el.innerText = Math.round(to*(1-Math.pow(1-p,3))); if (p<1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
 
-                doc.setTextColor(200, 200, 200);
-                doc.setFontSize(10);
-                doc.text("Summary: " + document.getElementById('verdictTitle').innerText, 15, 70);
+function card(sev, f) {
+  const i = FINDINGS.push(f) - 1;
+  const C = { high:['rose','VOID / HIGH'], med:['amber','NEGOTIATE'], good:['emerald','FAIR'] }[sev];
+  return `<div class="finding p-4 rounded-2xl bg-${C[0]}-500/10 border border-${C[0]}-500/30 space-y-2" style="animation-delay:${Math.min(i,8)*50}ms">
+    <div class="flex items-start justify-between gap-3"><span class="text-[11px] font-mono font-bold text-${C[0]}-400">${esc(f.cite)}</span>
+      <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-${C[0]}-500/20 text-${C[0]}-300 border border-${C[0]}-500/40 font-bold whitespace-nowrap">${C[1]}</span></div>
+    <h5 class="text-sm font-bold text-white">${esc(f.title)}</h5>
+    <p class="text-[13px] text-slate-300 leading-relaxed">${esc(f.why)}</p>
+    ${f.excerpt ? `<div class="text-[11px] font-mono text-slate-400 bg-black/30 rounded-lg px-3 py-2 border border-white/5"><span class="text-wk-muted">Found in text:</span> ${esc(f.excerpt)}</div>` : ''}
+    ${f.missing && sev!=='good' ? `<div class="text-[11px] font-mono text-slate-400">Missing from the document you provided.</div>` : ''}
+    ${f.action ? `<div class="text-[12px] font-mono pt-0.5 font-semibold" style="color:var(--accent)"><i class="fa-solid fa-lightbulb mr-1"></i>${esc(f.action)}</div>` : ''}
+    <div class="flex flex-wrap gap-2 pt-1">
+      <button onclick="explainFinding(${i})" class="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-200 transition"><i class="fa-solid fa-comment-dots mr-1"></i>Explain simply</button>
+      ${f.fix ? `<button onclick="copyFix(${i}, this)" class="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-200 transition"><i class="fa-solid fa-copy mr-1"></i>Copy suggested clause</button>` : ''}
+    </div></div>`;
+}
+const emptyBox = t => `<div class="p-3 rounded-2xl bg-black/20 border border-wk-border text-xs text-wk-muted font-mono">${t}</div>`;
 
-                doc.save("Wakeel_AI_Legal_Audit_Report.pdf");
-            } else {
-                alert("PDF export library loading... Please retry in a moment.");
-            }
-        }
+function render(a) {
+  last = a; FINDINGS = [];
+  $('placeholder').classList.add('hidden'); $('results').classList.remove('hidden');
+  $('scoreVal').innerText = 0; setTimeout(() => { setGauge(a.score); countUp($('scoreVal'), a.score); }, 60);
+  const b = $('levelBadge'); b.innerText = a.level; b.className = 'mt-4 text-[11px] font-mono px-4 py-1 rounded-full border font-bold uppercase tracking-wider ' + a.badge;
+  $('docTag').innerText = DOCS[a.docId].label.toUpperCase() + ' · AUDIT';
+  $('verdictTitle').innerText = a.title; $('verdictSub').innerText = a.subtitle;
+  $('countChips').innerHTML = [['rose',a.high.length,'critical'],['amber',a.med.length,'caution'],['emerald',a.good.length,'fair']].map(([c,n,l]) => `<span class="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg bg-${c}-500/10 text-${c}-300 border border-${c}-500/30">${n} ${l}</span>`).join('');
+  $('checkTitle').querySelector('span').innerText = 'REVISION CHECKLIST (' + STACKS[state.stack].who + ')';
+  $('checklist').innerHTML = a.checklist.map((c,i) => `<li class="flex gap-2.5 fadein" style="animation-delay:${i*50}ms"><span class="font-mono font-bold" style="color:var(--accent)">[${i+1}]</span><span>${esc(c)}</span></li>`).join('');
+  $('redList').innerHTML = a.high.length ? a.high.map(f => card('high', f)).join('') : emptyBox('No critical violations found.');
+  $('yellowList').innerHTML = a.med.length ? a.med.map(f => card('med', f)).join('') : emptyBox('No moderate-risk terms found.');
+  $('greenList').innerHTML = a.good.length ? a.good.map(f => card('good', f)).join('') : emptyBox('No protective clauses detected.');
+  renderExtra(a);
+  $('results').scrollIntoView({ behavior:'smooth', block:'start' });
+}
 
-        function toggleChatbot() {
-            const windowEl = document.getElementById('chatWindow');
-            windowEl.classList.toggle('hidden');
-        }
+function renderExtra(a) {
+  const p = $('extraPanel');
+  if (!a.salary) { p.classList.add('hidden'); p.innerHTML = ''; return; }
+  const s = a.salary, total = s.gross;
+  const bar = s.parts.filter(x => x[1] > 0).map(x => `<div style="width:${(x[1]/total*100).toFixed(1)}%;background:${x[2]}" class="h-full" title="${x[0]}"></div>`).join('');
+  const legend = s.parts.filter(x => x[1] > 0).map(x => `<span class="inline-flex items-center gap-1.5 text-[11px] font-mono text-slate-300"><i class="w-2.5 h-2.5 rounded-sm inline-block" style="background:${x[2]}"></i>${x[0]} ${inr(x[1])}</span>`).join('');
+  p.classList.remove('hidden');
+  p.innerHTML = `<div class="glass rounded-3xl p-6 space-y-5 fadein">
+    <div class="grid grid-cols-3 gap-3 text-center font-mono">
+      <div class="rounded-2xl bg-black/30 border border-wk-border p-3"><div class="text-[10px] text-wk-muted">GROSS / MONTH</div><div class="text-lg font-extrabold text-white mt-1">${inr(s.gross)}</div></div>
+      <div class="rounded-2xl bg-black/30 border border-wk-border p-3"><div class="text-[10px] text-wk-muted">DEDUCTIONS</div><div class="text-lg font-extrabold text-rose-400 mt-1">${inr(s.ded)}</div></div>
+      <div class="rounded-2xl bg-black/30 border border-wk-border p-3"><div class="text-[10px] text-wk-muted">TAKE-HOME (${(s.net/s.gross*100).toFixed(0)}%)</div><div class="text-lg font-extrabold text-emerald-400 mt-1">${inr(s.net)}</div></div>
+    </div>
+    <div><div class="h-3 rounded-full overflow-hidden flex bg-black/40 border border-wk-border">${bar}</div><div class="flex flex-wrap gap-x-4 gap-y-1 mt-2">${legend}</div></div>
+    <div class="rounded-2xl bg-black/30 border border-wk-border p-4">
+      <div class="text-[11px] font-mono font-bold mb-3 flex items-center gap-2" style="color:var(--accent)"><i class="fa-solid fa-scale-unbalanced-flip"></i>TAX REGIME CHECK (ESTIMATE, FULL-YEAR)</div>
+      <div class="grid grid-cols-2 gap-3 text-center font-mono">
+        <div class="rounded-xl p-3 border ${s.best==='new'?'border-emerald-500/50 bg-emerald-500/10':'border-wk-border'}"><div class="text-[10px] text-wk-muted">NEW REGIME</div><div class="text-base font-extrabold text-white mt-1">${inr(s.tNew)}/yr</div><div class="text-[10px] text-wk-muted">${inr(s.tNew/12)}/month</div></div>
+        <div class="rounded-xl p-3 border ${s.best==='old'?'border-emerald-500/50 bg-emerald-500/10':'border-wk-border'}"><div class="text-[10px] text-wk-muted">OLD REGIME</div><div class="text-base font-extrabold text-white mt-1">${inr(s.tOld)}/yr</div><div class="text-[10px] text-wk-muted">HRA exempt ${inr(s.hraEx)}/yr</div></div>
+      </div>
+      <p class="text-xs text-slate-300 mt-3 leading-relaxed">${s.saving < 1 ? 'Both regimes cost about the same for you.' : `The <b>${s.best} regime</b> looks cheaper by about <b>${inr(s.saving)}</b> a year. Tell HR your choice — it decides your monthly TDS.`} Estimates ignore surcharge and other income; rules are simplified.</p>
+    </div></div>`;
+}
 
-        function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            const msg = input.value.trim();
-            if (!msg) return;
+/* ---------- misc actions ---------- */
+function copyFix(i, btn) {
+  navigator.clipboard.writeText(FINDINGS[i].fix).then(() => { const o = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i>Copied'; setTimeout(() => btn.innerHTML = o, 1400); }).catch(() => alert(FINDINGS[i].fix));
+}
 
-            const chatLog = document.getElementById('chatLog');
-            
-            const userMsg = document.createElement('div');
-            userMsg.className = 'bg-wakeel-cyber/10 border border-wakeel-cyber/30 rounded-xl p-3 text-wakeel-light space-y-1 ml-4';
-            userMsg.innerHTML = `<div class="text-[10px] text-wakeel-cyber font-bold font-mono">// YOU</div><p class="leading-relaxed">${msg}</p>`;
-            chatLog.appendChild(userMsg);
+function downloadReport() {
+  if (!last || !window.jspdf) { alert('Run an analysis first (or wait for the PDF library to load).'); return; }
+  const { jsPDF } = window.jspdf; const doc = new jsPDF({ unit:'mm', format:'a4' });
+  const clean = s => String(s ?? '').replace(/[^\x00-\x7F]/g, m => ({'₹':'Rs. ','–':'-','—':'-','’':"'",'‘':"'",'“':'"','”':'"','§':'Sec. ','…':'...','×':'x','≤':'<=','≥':'>='}[m] || ''));
+  let y = 18; const L = 15, W = 180;
+  const need = h => { if (y + h > 280) { doc.addPage(); y = 18; } };
+  const para = (t, size, style, rgb, gap) => { doc.setFont('helvetica', style||'normal'); doc.setFontSize(size); doc.setTextColor(...(rgb||[40,40,40])); const lines = doc.splitTextToSize(clean(t), W); need(lines.length*size*0.45+gap); doc.text(lines, L, y); y += lines.length*size*0.45 + gap; };
+  doc.setFillColor(255,153,51); doc.rect(0,0,210,6,'F'); doc.setFillColor(19,136,8); doc.rect(0,6,210,2,'F');
+  y = 20; para('WAKEEL AI - Statutory Risk Report', 18, 'bold', [20,20,60], 2);
+  para(`${DOCS[last.docId].label}  |  ${STACKS[state.stack].label}  |  ${new Date().toLocaleDateString('en-IN')}`, 9, 'normal', [100,100,100], 5);
+  para(`RISK SCORE: ${last.score}/100  -  ${last.level}`, 15, 'bold', last.score>=67?[200,30,60]:last.score>=45?[220,110,20]:last.score>=25?[190,140,0]:[20,130,60], 2);
+  para(last.title, 12, 'bold', [30,30,30], 1); para(last.subtitle, 10, 'normal', [90,90,90], 5);
+  if (last.salary) { const s = last.salary; para(`Gross ${s.gross.toFixed(0)}/month | Deductions ${s.ded.toFixed(0)} | Net ${s.net.toFixed(0)} | Est. tax new regime ${s.tNew.toFixed(0)}/yr, old regime ${s.tOld.toFixed(0)}/yr`, 9, 'normal', [60,60,60], 5); }
+  para('REVISION CHECKLIST', 11, 'bold', [20,20,60], 2); last.checklist.forEach((c,i) => para(`${i+1}. ${c}`, 10, 'normal', [40,40,40], 1.5)); y += 3;
+  const section = (name, arr, rgb) => { if (!arr.length) return; para(name, 11, 'bold', rgb, 2);
+    arr.forEach(f => { para('- ' + f.title + '  [' + f.cite + ']', 10, 'bold', [30,30,30], 1); para(f.why, 9.5, 'normal', [70,70,70], 1); if (f.action) para('Action: ' + f.action, 9.5, 'normal', [20,90,160], 3); else y += 2; }); y += 2; };
+  section('CRITICAL / HIGH RISK', last.high, [200,30,60]); section('CAUTION - NEGOTIATE', last.med, [190,120,0]); section('FAIR & PROTECTIVE', last.good, [20,130,60]);
+  para('Disclaimer: Wakeel AI is an automated educational screening tool and not legal, tax or financial advice. Statutory references are simplified and vary by state and over time. Consult a qualified advocate or chartered accountant before signing or filing.', 8, 'italic', [120,120,120], 0);
+  doc.save('Wakeel_AI_Report.pdf');
+}
 
-            input.value = '';
-            chatLog.scrollTop = chatLog.scrollHeight;
+/* =====================================================================
+   CHAT ASSISTANT
+   ===================================================================== */
+const KB = [
+ { k:['non compete','noncompete','non-compete','restraint','compete'], a:"**Non-competes in India**\n• After you leave, a non-compete is **void under Section 27** of the Indian Contract Act 1872.\n• During the contract, it's generally fine to bar competing work.\n• Confidentiality and non-solicit of trade secrets can still be enforced if reasonable.\nIf a contract has one, ask to limit it to the contract term." },
+ { k:['penalty','liquidated','damages','74'], a:"**Penalties & liquidated damages (Section 74)**\nCourts award only *reasonable compensation* for proven loss even when a bigger sum is written in. A huge fixed amount 'without proof of loss' is not enforceable as written. Ask for a cap equal to fees paid." },
+ { k:['ip','copyright','ownership','own my work','work for hire','work-for-hire','assign'], a:"**IP & copyright (Copyright Act 1957)**\n• Author is the first owner unless the work is made in the course of employment.\n• An assignment must be in writing and should state **duration & territory** — if silent, it defaults to **5 years and India** (s.19).\n• Best practice: IP transfers only on **full payment**, and you keep pre-existing tools and portfolio rights." },
+ { k:['moral right','attribution'], a:"**Moral rights (s.57)** protect your right to be credited and to object to distortion. A blanket waiver is of doubtful enforceability in India, so negotiate attribution or a narrow waiver." },
+ { k:['notice','resign','resignation','terminate','termination','notice period'], a:"**Notice periods**\n• Typical: 30–90 days for jobs; 14–30 days for freelance.\n• Long periods are legal, but the 'penalty' for not serving must be reasonable — usually pay in lieu.\n• Instant one-sided termination with unpaid dues is unfair; ask for mutual written notice." },
+ { k:['bond','service agreement','training cost','minimum service'], a:"**Employment bonds**\nCourts uphold *reasonable* bonds linked to real training costs, but cut punitive sums to genuine loss (Section 74). Ask for a short tenure, pro-rata reduction each month and proof of the cost." },
+ { k:['original','certificate','documents','degree','marksheet'], a:"**Employer holding original certificates**\nThis is coercive and widely treated as an unfair practice. Offer photocopies/DigiLocker verification and refuse to hand over originals. If already deposited, send a written request and escalate to the labour department if needed." },
+ { k:['gratuity'], a:"**Gratuity**\nPayable on retirement/exit after qualifying service — generally **5 years** of continuous service (the new labour codes also allow shorter periods for some fixed-term staff). Formula: **15 × last drawn basic × years ÷ 26**. Check your offer letter mentions it." },
+ { k:['pf','provident','epf','uan'], a:"**Provident Fund**\nEmployee contributes **12% of basic** (employer matches). Some payroll systems cap it at 12% of ₹15,000 = ₹1,800 — legal, but you can ask to contribute on full basic. Check your EPFO passbook to verify deposits." },
+ { k:['esi','insurance scheme'], a:"**ESI**\nApplies to covered establishments when gross is up to **₹21,000/month**. Employee share is **0.75%**, employer **3.25%**. It gives medical and cash benefits." },
+ { k:['professional tax','pt '], a:"**Professional tax**\nStates can levy it up to **₹2,500 per year** per person (Article 276). Many states charge about ₹200/month. Anything higher is wrong." },
+ { k:['hra','house rent'], a:"**HRA exemption (old regime)**\nExempt amount = the **lowest** of: actual HRA, rent paid − 10% of basic, 50% (metro) / 40% (non-metro) of basic. Not available in the new regime." },
+ { k:['tds','tax','regime','income tax','new regime','old regime'], a:"**TDS & regimes (salary)**\n• New regime has lower slopes and a ₹75,000 standard deduction; income up to about **₹12 lakh** is effectively tax-free after rebate.\n• Old regime allows HRA, 80C, 80D etc.\nTell HR your regime and submit declarations, otherwise TDS may be off. Use the Salary Slip Analyser for an estimate." },
+ { k:['labour code','labor code','code on wages','50%','basic salary','structure'], a:"**Labour codes & salary structure**\nThe Code on Wages 2019 defines 'wages' (basic + DA) and generally expects it to be **at least 50% of total remuneration**, which lifts PF and gratuity. Ask HR how your CTC has been restructured." },
+ { k:['variable','ctc','in-hand','take home','inhand'], a:"**CTC vs take-home**\nCTC includes employer PF, gratuity, insurance and variable pay. Your monthly in-hand is gross minus PF, PT, TDS and other deductions. Ask for a salary breakup annexure before accepting." },
+ { k:['unpaid','intern','stipend','internship'], a:"**Internships**\nUnpaid internships aren't banned, but be wary if a profit-making firm takes productive work for free, or asks for a **fee/deposit** (a scam red flag). Ask for stipend, duration, learning outcomes and a certificate/LOR." },
+ { k:['nda','confidential','non disclosure','non-disclosure','secrecy'], a:"**NDAs**\nGood NDAs are mutual, time-limited (2–3 years; trade secrets longer), have standard carve-outs (public, already known, independently developed, legally compelled) and Indian law/venue." },
+ { k:['jurisdiction','governing law','delaware','foreign court','arbitration','venue'], a:"**Jurisdiction & arbitration**\nForeign courts aren't automatically invalid but are very costly. Ask for Indian law and a city seat. Arbitration under the **Arbitration & Conciliation Act 1996** is faster than courts; commercial disputes also need pre-institution mediation (s.12A, Commercial Courts Act)." },
+ { k:['stamp','stamping','registration','register','e-stamp'], a:"**Stamp duty & registration**\nUnstamped agreements are inadmissible as evidence until duty and penalty are paid. **Leases over 1 year must be registered** (Registration Act s.17). Use e-stamping where your state allows." },
+ { k:['e-sign','esign','electronic signature','digital signature','sign online'], a:"**E-signatures**\nElectronic signatures (e.g. Aadhaar eSign, DSC) are valid under the **IT Act 2000**. Some documents (wills, property sales, certain powers of attorney) still need physical formalities." },
+ { k:['msme','45 days','late payment','overdue','invoice','payment delay'], a:"**Getting paid on time**\nFor **micro & small suppliers**, the MSMED Act 2006 requires payment within **45 days** (or agreed shorter) with **compound interest at 3× the RBI bank rate** on delay. Register on Udyam and file with the MSE Facilitation Council if needed." },
+ { k:['gst','freelancer tax','invoice gst'], a:"**GST for freelancers**\nRegistration is needed once aggregate turnover for **services** crosses **₹20 lakh** (₹10 lakh in special-category states). Exporting services can be zero-rated under conditions. Also keep invoices for ITR and consider presumptive taxation (s.44ADA) if eligible." },
+ { k:['dpdp','data protection','privacy','personal data'], a:"**Data protection**\nIf a vendor processes personal data, contracts should specify purpose, security safeguards and breach notice under the **Digital Personal Data Protection Act 2023** (rules are phasing in)." },
+ { k:['vesting','cliff','co-founder','cofounder','equity','shareholder'], a:"**Co-founder agreements**\nMust-haves: **4-year vesting with 1-year cliff**, IP assigned to the company, exit/buy-back terms, deadlock and removal-for-cause rules. Also decide the entity: partnership (unlimited liability), LLP, or private limited." },
+ { k:['llp','private limited','pvt ltd','proprietorship','entity','partnership'], a:"**Choosing a structure**\n• **Proprietorship**: simplest, unlimited liability.\n• **Partnership**: unlimited, joint & several.\n• **LLP**: limited liability, lighter compliance.\n• **Private Ltd**: best for raising funds and ESOPs." },
+ { k:['lease','rent agreement','landlord','tenant','deposit','escalation','lock-in','lockin'], a:"**Leases**\nWatch: deposit above 6 months, escalation above 5–10%/yr, long lock-ins, eviction/entry without notice. Leases over 1 year need registration and stamp duty; 11-month leases are common to avoid it." },
+ { k:['force majeure','frustration','section 56','covid'], a:"**Force majeure & frustration**\nWithout a clause you rely on **Section 56** (impossibility), which is narrow. Add a clear force-majeure clause with notice and suspension rights." },
+ { k:['void','voidable','valid contract','section 10','section 23','consideration','unlawful'], a:"**What makes a contract valid (s.10)**\nFree consent, competent parties, lawful consideration, lawful object, not expressly void. Under **s.23** agreements with unlawful objects or opposed to public policy are void; **s.27** voids restraint of trade; **s.28** voids absolute restraints on legal proceedings." },
+ { k:['limitation','time limit','how long can i sue'], a:"**Limitation**\nMost contract claims must be filed within **3 years** of the breach under the Limitation Act 1963. Don't wait — send a written demand early and keep records." },
+ { k:['legal notice','demand','recover money','unpaid fees'], a:"**Unpaid fees**\n1. Send a polite written reminder.\n2. Send a **legal notice** (14–15 days).\n3. For commercial disputes, mediation under s.12A, then a suit/arbitration.\nKeep invoices, chats and proof of delivery. MSME suppliers can use the MSEFC route." },
+ { k:['hello','hi','hey','namaste'], a:"Namaste! 👋 I'm your Wakeel assistant. Ask me about contracts, notice periods, TDS, IP, NDAs, leases or co-founder deals — or tap a suggestion below." },
+ { k:['who are you','what can you do','help'], a:"I explain Indian contract, employment, IP and payslip rules in plain language, and I can walk you through your latest report. I'm an educational tool — for high-stakes disputes, consult an advocate." }
+];
 
-            setTimeout(() => {
-                const botMsg = document.createElement('div');
-                botMsg.className = 'bg-wakeel-bg border border-wakeel-border rounded-xl p-3 text-wakeel-light space-y-1 mr-4';
-                
-                let response = "Under Section 27 of the Indian Contract Act 1872, post-employment non-competes are void. Any attempt by an employer or client to restrain your right to practice a trade or profession is legally unenforceable in India.";
-                if (msg.toLowerCase().includes('ip') || msg.toLowerCase().includes('copyright')) {
-                    response = "Under Section 19 of the Copyright Act 1957, copyright assignment requires explicit written terms and consideration. Always ensure IP transfer is conditioned upon 100% full invoice payment.";
-                } else if (msg.toLowerCase().includes('notice') || msg.toLowerCase().includes('terminate')) {
-                    response = "Unilateral immediate termination without cause while withholding earned fees is opposed to public policy under Section 23 of the Indian Contract Act. Always require 14-30 days written notice.";
-                }
+const CHIPS = {
+  freelancer:['Is my non-compete valid?','Who owns my work?','How to get paid on time','GST for freelancers'],
+  job:['Can my employer keep my originals?','Is a notice period bond legal?','Explain gratuity','Old vs new tax regime'],
+  business:['Co-founder vesting basics','Lease red flags','Vendor payment terms (MSME)','Do I need stamp duty?']
+};
 
-                botMsg.innerHTML = `<div class="text-[10px] text-wakeel-saffron font-bold font-mono">// WAKEEL ASSISTANT</div><p class="leading-relaxed">${response}</p>`;
-                chatLog.appendChild(botMsg);
-                chatLog.scrollTop = chatLog.scrollHeight;
-            }, 600);
-        }
-    </script>
+function fmt(t) { return esc(t).replace(/\*\*(.+?)\*\*/g,'<strong class="text-white">$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>'); }
+function addMsg(role, html) {
+  const log = $('chatLog'); const wrap = document.createElement('div'); wrap.className = 'flex ' + (role==='user'?'justify-end':'justify-start');
+  wrap.innerHTML = `<div class="bubble ${role}">${html}</div>`; log.appendChild(wrap); log.scrollTop = log.scrollHeight;
+}
+function showTyping() { const log = $('chatLog'); const el = document.createElement('div'); el.id = 'typing'; el.className = 'flex'; el.innerHTML = '<div class="bubble bot typing"><span></span><span></span><span></span></div>'; log.appendChild(el); log.scrollTop = log.scrollHeight; }
+function botSay(text, raw) { showTyping(); const delay = Math.min(1400, 450 + text.length*3); setTimeout(() => { const t = $('typing'); if (t) t.remove(); addMsg('bot', raw ? text : fmt(text)); }, delay); }
+
+function answer(q) {
+  const s = q.toLowerCase();
+  if (/(my (report|score|result|analysis|contract|payslip)|explain (it|this)|summar)/.test(s)) {
+    if (!last) return "I don't have a report yet. Load a sample or paste a document, run the analysis, then ask me again — I'll walk you through it.";
+    const top = [...last.high, ...last.med].slice(0,3);
+    return `Your **${DOCS[last.docId].label}** scored **${last.score}/100 (${last.level})**.\n` + (top.length ? 'Top issues:\n' + top.map(f => '• ' + f.title).join('\n') + `\n\nStart with: ${top[0].action || top[0].why}` : 'No major red flags found. Double-check names, dates and amounts before signing.');
+  }
+  let best = null, bs = 0;
+  KB.forEach(e => { let sc = 0; e.k.forEach(k => { if (s.includes(k)) sc += k.length > 4 ? 2 : 1; }); if (sc > bs) { bs = sc; best = e; } });
+  if (best) return best.a;
+  return "I'm not sure about that one yet. I can help with **non-competes, penalties, IP, notice periods, bonds, gratuity, PF/ESI/PT, TDS regimes, internships, NDAs, leases, vendor terms and co-founder deals**. Try rephrasing, or tap a suggestion below.";
+}
+function sendChat(preset) {
+  const input = $('chatInput'); const msg = (typeof preset === 'string' ? preset : input.value).trim(); if (!msg) return;
+  addMsg('user', esc(msg)); input.value = ''; botSay(answer(msg));
+}
+function renderChips() { $('chatChips').innerHTML = CHIPS[state.stack].concat(last ? [] : []).concat(['Explain my report']).map(c => `<button class="chip" onclick="sendChat(${JSON.stringify(c).replace(/"/g,'&quot;')})">${esc(c)}</button>`).join(''); }
+function toggleChat(force) { const w = $('chatWindow'); const open = force ?? !w.classList.contains('open'); w.classList.toggle('open', open); if (open) setTimeout(() => $('chatInput').focus(), 250); }
+function resetChat() { $('chatLog').innerHTML = ''; greet(); }
+function greet() { addMsg('bot', fmt("Namaste! I'm **Wakeel Assistant**. Ask me about contracts, jobs, internships, payslips or business deals under Indian law. I can also explain any finding in your report.")); }
+function explainFinding(i) {
+  const f = FINDINGS[i]; toggleChat(true); addMsg('user', esc('Explain: ' + f.title));
+  botSay(`**${f.title}**\n${f.why}\n\n**What to do:** ${f.action || 'No change needed.'}\n**Law:** ${f.cite}` + (f.fix ? `\n\n**Suggested wording:** ${f.fix}` : ''));
+}
+
+/* ---------- init ---------- */
+(function init() {
+  $('salFields').innerHTML = SAL_FIELDS.map(([k,l]) => `<div><label class="text-[10px] font-mono text-wk-muted block mb-1">${l}</label><input id="sal_${k}" type="number" min="0" inputmode="decimal" placeholder="0" class="num-in"></div>`).join('');
+  refreshAll(); greet();
+})();
+</script>
 </body>
 </html>
